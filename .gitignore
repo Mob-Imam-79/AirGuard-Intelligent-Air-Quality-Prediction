@@ -55,4 +55,6 @@ airguard_backup_pre_git.tar.gz
 .backup_pre_publishing/
 .source_pdfs/
 GITHUB_PUBLISHING_LOG.md
+backend_2/
+
 
