@@ -1,0 +1,36 @@
+{
+  "selected_model": "Random Forest Regression",
+  "trained_date": "2026-11-16T23:02:38.049742",
+  "total_records": 12000,
+  "test_size": 2400,
+  "models": [
+    {
+      "algorithm": "Linear Regression",
+      "mae": 20.8727,
+      "mse": 820.6157,
+      "rmse": 28.6464,
+      "r2_score": 0.9067
+    },
+    {
+      "algorithm": "Decision Tree Regression",
+      "mae": 1.654,
+      "mse": 10.7657,
+      "rmse": 3.2811,
+      "r2_score": 0.9988
+    },
+    {
+      "algorithm": "Random Forest Regression",
+      "mae": 0.6965,
+      "mse": 3.6686,
+      "rmse": 1.9153,
+      "r2_score": 0.9996
+    },
+    {
+      "algorithm": "Support Vector Regression",
+      "mae": 6.6093,
+      "mse": 123.9648,
+      "rmse": 11.1339,
+      "r2_score": 0.9859
+    }
+  ]
+}
