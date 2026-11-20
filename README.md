@@ -7,7 +7,7 @@
 [![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL_/_SQLAlchemy-336791.svg)](https://www.postgresql.org/)
 [![Scikit-Learn](https://img.shields.io/badge/ML-Random_Forest_R²_0.9996-F7931E.svg)](https://scikit-learn.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Styling-Tailwind_CSS-38B2AC.svg)](https://tailwindcss.com/)
-[![Tests](https://img.shields.io/badge/Tests-14%20Passed%20%2F%200%20Failed-success.svg)](https://docs.pytest.org/)
+[![Tests](https://img.shields.io/badge/Tests-15%20Passed%20%2F%200%20Failed-success.svg)](https://docs.pytest.org/)
 
 **AirGuard** is an end-to-end environmental intelligence SaaS web application built according to the **Software Engineering Laboratory** curriculum specifications. It transforms 8 atmospheric and meteorological parameters into real-time **Air Quality Index (AQI)** predictions, assigns standardized CPCB health categories, and provides interactive visualizations, downloadable PDF/CSV audit reports, and a dedicated administrator suite.
 
@@ -133,6 +133,16 @@ npm run dev
 
 ---
 
+### Option C: Terminal CLI Predictor (No Browser Needed)
+
+To execute machine learning predictions directly inside your terminal:
+
+```bash
+./venv/bin/python backend/predict_cli.py
+```
+
+---
+
 ## 🔑 Default Credentials
 
 The system comes pre-seeded with two demo accounts for immediate testing:
@@ -146,15 +156,35 @@ The system comes pre-seeded with two demo accounts for immediate testing:
 
 ---
 
+## ⚙️ Environment Configuration
+
+Copy the template configuration file to `.env`:
+
+```bash
+cp .env.example .env
+```
+
+Default settings in `.env`:
+```dotenv
+PROJECT_NAME="AirGuard — Intelligent Air Quality Prediction System"
+VERSION="1.0.0"
+API_V1_STR="/api/v1"
+SECRET_KEY="airguard-super-secure-secret-key-change-in-production-2026"
+DATABASE_URL="postgresql+psycopg2://postgres:postgres@localhost:5432/airguard_db"
+```
+*(If PostgreSQL is not running locally, AirGuard automatically falls back to local SQLite `airguard.db` for continuous operation).*
+
+---
+
 ## 🧪 Automated Testing Suite
 
-All 14 comprehensive test cases covering White-Box, Black-Box, Unit, Integration, and Acceptance criteria pass:
+All 15 comprehensive test cases covering White-Box, Black-Box, Unit, Integration, and Acceptance criteria pass:
 
 ```bash
 PYTHONPATH=. ./venv/bin/pytest backend/tests/ -v
 ```
 
-**Results:**
+**Results (15 Passed, 0 Failed):**
 - `test_register_new_user`: PASSED
 - `test_register_duplicate_email`: PASSED
 - `test_login_success`: PASSED
@@ -162,6 +192,7 @@ PYTHONPATH=. ./venv/bin/pytest backend/tests/ -v
 - `test_aqi_classification_thresholds`: PASSED
 - `test_health_advisory_messages`: PASSED
 - `test_category_metadata`: PASSED
+- `test_full_e2e_lifecycle`: PASSED
 - `test_prediction_workflow`: PASSED
 - `test_prediction_validation_rejection`: PASSED
 - `test_analytics_and_reports`: PASSED
@@ -186,7 +217,8 @@ AirGuard/
 │   │   ├── config.py        # Centralized settings & environment variables
 │   │   ├── database.py      # Database engine with automatic reconnection
 │   │   └── main.py          # FastAPI application entrypoint & SPA static mount
-│   ├── tests/               # Pytest automated test suite
+│   ├── tests/               # Pytest automated test suite (15 unit/e2e tests)
+│   ├── predict_cli.py       # Standalone interactive CLI prediction tool
 │   └── requirements.txt     # Python dependency specifications
 │
 ├── frontend/
@@ -204,6 +236,7 @@ AirGuard/
 ├── design.md                # Frontend design system specification
 ├── project_Task.md          # Completed roadmap and task tracking
 ├── memory.md                # Project progress memory
+├── .env.example             # Environment configuration template
 ├── run.sh                   # All-in-one launcher script
 └── README.md
 ```
