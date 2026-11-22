@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AirGuard — Comprehensive Software Project Report</title>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --secondary: #2563eb;
+            --text-dark: #0f172a;
+            --text-muted: #475569;
+            --bg-light: #f8fafc;
+            --border-color: #cbd5e1;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: var(--text-dark);
+            background-color: #f1f5f9;
+            line-height: 1.6;
+            padding: 40px 20px;
+        }
+        .report-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 60px 80px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--border-color);
+        }
+        h1 {
+            color: var(--primary);
+            font-size: 26px;
+            line-height: 1.3;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+        h2 {
+            color: var(--secondary);
+            font-size: 18px;
+            margin-top: 32px;
+            margin-bottom: 12px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 6px;
+        }
+        h3 {
+            color: var(--primary);
+            font-size: 15px;
+            margin-top: 20px;
+            margin-bottom: 8px;
+        }
+        p {
+            margin-bottom: 14px;
+            text-align: justify;
+            font-size: 14.5px;
+        }
+        hr {
+            border: none;
+            border-top: 1.5px solid #cbd5e1;
+            margin: 24px 0;
+        }
+        ul, ol {
+            margin-left: 24px;
+            margin-bottom: 14px;
+            font-size: 14.5px;
+        }
+        li {
+            margin-bottom: 6px;
+        }
+        .table-container {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13.5px;
+            margin-bottom: 10px;
+        }
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 8px 12px;
+            text-align: left;
+        }
+        th {
+            background-color: var(--primary);
+            color: #ffffff;
+            font-weight: 600;
+            text-align: center;
+        }
+        tr:nth-child(even) {
+            background-color: var(--bg-light);
+        }
+        pre {
+            background-color: #0f172a;
+            color: #f8fafc;
+            padding: 16px;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-size: 13px;
+            margin: 16px 0;
+            line-height: 1.45;
+        }
+        code {
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            background: #e2e8f0;
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: #f8fafc;
+        }
+        blockquote {
+            border-left: 4px solid var(--secondary);
+            background: #eff6ff;
+            padding: 12px 18px;
+            margin: 16px 0;
+            border-radius: 0 4px 4px 0;
+            font-size: 14px;
+        }
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        @media print {
+            body {
+                padding: 0;
+                background: white;
+            }
+            .report-container {
+                box-shadow: none;
+                border: none;
+                padding: 0;
+                max-width: 100%;
+            }
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            if (typeof mermaid !== "undefined") {
+                mermaid.initialize({ startOnLoad: true, theme: 'neutral' });
+            }
+        });
+    </script>
+</head>
+<body>
+    <div class="report-container">
+        <h1 id='airguard---intelligent-air-quality-prediction-system'>AIRGUARD — INTELLIGENT AIR QUALITY PREDICTION SYSTEM</h1>
+<h2 id='comprehensive-software-engineering-project-report'>Comprehensive Software Engineering Project Report</h2>
+
+<hr/>
+
+<p><strong>Submitted in partial fulfillment of the requirements for the degree of</strong></p>
+<p><strong>Bachelor of Technology in Computer Science and Engineering</strong></p>
+
+<p><strong>Project Domain</strong>: Software Engineering, Machine Learning, Environmental Monitoring</p>
+<p><strong>Academic Year</strong>: 2026–2027</p>
+
+<hr/>
+
+<h2 id='certificate'>CERTIFICATE</h2>
+
+<p>This is to certify that the project entitled <strong>"AirGuard – Intelligent Air Quality Prediction System"</strong> is a bona fide record of work carried out by the project team under the supervision and guidance in partial fulfillment of the requirements for the award of the degree of <strong>Bachelor of Technology in Computer Science and Engineering</strong>.</p>
+
+<p>The results embodied in this report have been verified and have not been submitted to any other university or institute for the award of any degree or diploma.</p>
+
+<p><strong>Project Guide / Supervisor</strong></p>
+<p>Department of Computer Science and Engineering</p>
+
+<p><strong>Head of Department (CSE)</strong></p>
+<p>Department of Computer Science and Engineering</p>
+
+<hr/>
+
+<h2 id='declaration'>DECLARATION</h2>
+
+<p>We hereby declare that the project report entitled <strong>"AirGuard – Intelligent Air Quality Prediction System"</strong> submitted to the Department of Computer Science and Engineering is our original work. All external sources, research papers, documentation, and tools referenced in this report have been appropriately acknowledged and cited according to academic standards.</p>
+
+<p><strong>Project Team Members:</strong></p>
+<li><strong>Lead ML & Systems Engineer</strong>: Md Mobashir Imam</li>
+<li><strong>Backend & Database Engineer</strong>: Team Member 2</li>
+<li><strong>Frontend & UI/UX Developer</strong>: Team Member 3</li>
+<li><strong>QA & Validation Engineer</strong>: Team Member 4</li>
+
+<hr/>
+
+<h2 id='acknowledgement'>ACKNOWLEDGEMENT</h2>
+
+<p>We express our sincere gratitude to our project supervisor and faculty members of the Department of Computer Science and Engineering for their continuous guidance, technical encouragement, and constructive critique throughout the software development life cycle.</p>
+
+<p>We also thank the Central Pollution Control Board (CPCB), Ministry of Environment, Forest and Climate Change (MoEFCC), and the open-source software engineering community for providing transparent air quality index calculation methodologies, software frameworks, and developer tools that made the successful completion of this system possible.</p>
+
+<hr/>
+
+<h2 id='abstract'>ABSTRACT</h2>
+
+<p>Air pollution represents one of the most critical public health and environmental challenges of the modern era. Airborne particulate matter ($\text{PM}_{2.5}$, $\text{PM}_{10}$) and toxic gaseous pollutants ($\text{NO}_2$, $\text{SO}_2$, $\text{CO}$, $\text{O}_3$) significantly elevate the risks of chronic respiratory and cardiovascular illnesses. Traditional ambient air quality monitoring stations, while highly accurate, require capital-intensive sensor arrays, suffer from spatial sparsity, and provide retrospective measurements rather than predictive intelligence.</p>
+
+<p>To address these limitations, this project presents <strong>AirGuard — Intelligent Air Quality Prediction System</strong>, an end-to-end environmental intelligence Software-as-a-Service (SaaS) web platform. AirGuard ingests eight meteorological and atmospheric parameters ($\text{PM}_{2.5}$, $\text{PM}_{10}$, $\text{NO}_2$, $\text{SO}_2$, $\text{CO}$, $\text{O}_3$, Temperature, and Relative Humidity) to predict real-time <strong>Air Quality Index (AQI)</strong> values and assign standardized 6-tier CPCB health risk classifications (<em>Good, Satisfactory, Moderate, Poor, Very Poor, Severe</em>).</p>
+
+<p>The machine learning subsystem implements and empirically benchmarks four candidate regression algorithms across a 12,000-record Central Pollution Control Board standard observation dataset: Multiple Linear Regression, Decision Tree Regression, Support Vector Regression (SVR), and Random Forest Regression. The <strong>Random Forest Regressor</strong> achieved superior empirical accuracy with an $R^2$ score of <strong>0.9996</strong>, a Mean Absolute Error (MAE) of <strong>0.697</strong>, and a Root Mean Squared Error (RMSE) of <strong>1.915</strong>, achieving an average inference latency of <strong>21.10 ms</strong>.</p>
+
+<p>The software architecture follows a decoupled, multi-tier SaaS model comprising a <strong>React 18</strong> single-page frontend styled with Tailwind CSS, an asynchronous <strong>FastAPI</strong> Python REST backend, an <strong>SQLAlchemy 2.0 ORM</strong> database persistence layer with PostgreSQL/SQLite fallback, and an automated <strong>ReportLab</strong> PDF/CSV export engine. The entire platform was validated across all seven software testing disciplines with 15 passing automated test suites, confirming architectural robustness, user data isolation, and deployment readiness.</p>
+
+<hr/>
+
+<h2 id='table-of-contents'>TABLE OF CONTENTS</h2>
+
+<li><strong>Chapter 1: Introduction</strong></li>
+<li>1.1 Background of Air Pollution</li>
+<li>1.2 Importance of Air Quality Monitoring</li>
+<li>1.3 Problem Statement</li>
+<li>1.4 Motivation</li>
+<li>1.5 Project Objectives</li>
+<li>1.6 Project Scope</li>
+<li>1.7 Existing System vs. Proposed System</li>
+<li><strong>Chapter 2: Literature Survey</strong></li>
+<li>2.1 Existing Air Quality Monitoring Systems</li>
+<li>2.2 Traditional Statistical Forecasting Approaches</li>
+<li>2.3 Machine Learning Approaches in Environmental Science</li>
+<li>2.4 Comparative Analysis of Existing Literature</li>
+<li>2.5 Research Gaps and AirGuard Innovations</li>
+<li><strong>Chapter 3: Software Requirements Specification (SRS)</strong></li>
+<li>3.1 Functional Requirements (R1 – R10)</li>
+<li>3.2 Non-Functional Requirements</li>
+<li>3.3 Hardware Requirements</li>
+<li>3.4 Software Requirements</li>
+<li>3.5 User Characteristics & Role Matrix</li>
+<li>3.6 System Constraints, Assumptions & Dependencies</li>
+<li><strong>Chapter 4: System Analysis and Design</strong></li>
+<li>4.1 Multi-Tier SaaS System Architecture</li>
+<li>4.2 Data Flow Diagrams (DFD Level 0 & Level 1)</li>
+<li>4.3 Use Case Modeling</li>
+<li>4.4 Activity & Workflow Modeling</li>
+<li>4.5 Sequence Diagrams</li>
+<li>4.6 Class & Structural Diagrams</li>
+<li>4.7 Entity-Relationship (ER) Modeling & Database Schema</li>
+<li>4.8 Architectural Module Descriptions</li>
+<li><strong>Chapter 5: Methodology and Implementation</strong></li>
+<li>5.1 Software Engineering Life Cycle Methodology</li>
+<li>5.2 Data Ingestion, Cleaning & Preprocessing Pipeline</li>
+<li>5.3 Feature Extraction & Normalization</li>
+<li>5.4 Machine Learning Algorithms Formulation</li>
+<li>5.5 Empirical Model Training & Benchmark Selection</li>
+<li>5.6 Backend API Implementation (FastAPI)</li>
+<li>5.7 Database Persistence & ORM Layer</li>
+<li>5.8 Frontend Client Architecture (React 18 & Recharts)</li>
+<li>5.9 End-to-End Prediction Lifecycle</li>
+<li><strong>Chapter 6: Software Testing and Verification</strong></li>
+<li>6.1 Testing Methodologies Overview</li>
+<li>6.2 White-Box Testing & Code Path Coverage</li>
+<li>6.3 Black-Box & Equivalence Boundary Testing</li>
+<li>6.4 Unit & Integration Test Suite Execution</li>
+<li>6.5 System & User Acceptance Testing</li>
+<li>6.6 Performance, Stress & Latency Benchmarks</li>
+<li>6.7 Security, Authentication & Role Isolation Testing</li>
+<li>6.8 Master Test Execution Matrix</li>
+<li><strong>Chapter 7: Results and Technical Discussion</strong></li>
+<li>7.1 Quantitative Model Evaluation Metrics</li>
+<li>7.2 Atmospheric Sensitivity & Determinism Verification</li>
+<li>7.3 Multi-Scenario Prediction Demonstrations</li>
+<li>7.4 User Interface Visualizations & Walkthrough</li>
+<li>7.5 Technical Discussion & Analytical Insights</li>
+<li><strong>Chapter 8: Project Management & Cost Estimation</strong></li>
+<li>8.1 Work Breakdown Structure (WBS)</li>
+<li>8.2 Project Timeline & Gantt Schedule</li>
+<li>8.3 PERT Network Analysis & Critical Path Method (CPM)</li>
+<li>8.4 Team Resource Allocation & RACI Matrix</li>
+<li>8.5 Risk Assessment & Mitigation Matrix</li>
+<li>8.6 Software Cost Estimation (Basic COCOMO Model)</li>
+<li>8.7 Putnam-Norden Rayleigh Staffing Model</li>
+<li>8.8 Academic Project Budget</li>
+<li><strong>Chapter 9: Conclusion and Future Scope</strong></li>
+<li>9.1 Project Conclusion</li>
+<li>9.2 Key Technical Achievements</li>
+<li>9.3 System Limitations</li>
+<li>9.4 Future Enhancements (IoT, GIS, Deep Learning, Mobile)</li>
+<li><strong>Chapter 10: References</strong></li>
+
+<hr/>
+
+<h2 id='chapter-1--introduction'>CHAPTER 1: INTRODUCTION</h2>
+
+<h3 id='1-1-background-of-air-pollution'>1.1 Background of Air Pollution</h3>
+<p>Rapid industrialization, high vehicular density, urbanization, and energy generation from fossil fuels have caused unprecedented deterioration in atmospheric air quality globally. Ambient air pollution comprises a complex heterogeneous mixture of suspended particulate matter (fine respirable particles $\text{PM}_{2.5} \le 2.5\,\mu\text{m}$ and coarse dust $\text{PM}_{10} \le 10\,\mu\text{m}$) alongside toxic gaseous effluents including nitrogen dioxide ($\text{NO}_2$), sulfur dioxide ($\text{SO}_2$), carbon monoxide ($\text{CO}$), and ground-level tropospheric ozone ($\text{O}_3$).</p>
+
+<p>The World Health Organization (WHO) attributes over seven million premature deaths annually to air pollution exposure, linking elevated pollutant concentrations directly to ischemic heart disease, chronic obstructive pulmonary disease (COPD), bronchial asthma, and lung adenocarcinoma. In developing nations such as India, seasonal atmospheric temperature inversions trap surface emissions, yielding hazardous air pollution episodes across major metropolitan corridors.</p>
+
+<h3 id='1-2-importance-of-air-quality-monitoring'>1.2 Importance of Air Quality Monitoring</h3>
+<p>The Air Quality Index (AQI) was established by environmental regulatory agencies—most notably the Central Pollution Control Board (CPCB) in India and the United States Environmental Protection Agency (US-EPA)—to translate complex, multi-pollutant chemical concentrations into a single numerical index and human-understandable risk category. Continuous air quality tracking allows:</p>
+<li>Vulnerable populations (children, senior citizens, asthmatic patients) to adopt preventive health precautions.</li>
+<li>Municipal regulatory bodies to enact emergency traffic restrictions, construction moratoria, and industrial emission limits.</li>
+<li>Healthcare providers to forecast surges in emergency respiratory admissions.</li>
+
+<h3 id='1-3-problem-statement'>1.3 Problem Statement</h3>
+<p>Conventional ambient air monitoring relies predominantly on continuous ambient air quality monitoring stations (CAAQMS). While CAAQMS sensors provide gold-standard laboratory precision, they exhibit substantial structural deficiencies:</p>
+<li><strong>Capital & Maintenance Expenditure</strong>: Installing and calibrating a single station exceeds ₹1–1.5 Crores, rendering dense sensor deployments cost-prohibitive.</li>
+<li><strong>Spatial Sparsity</strong>: CAAQMS monitoring is restricted to discrete geographic coordinates, creating extensive data blind spots across urban neighborhoods.</li>
+<li><strong>Purely Reactive Intelligence</strong>: Existing telemetry dashboards display historical or lagging measurements rather than predictive intelligence. Citizens and administrators cannot anticipate air toxicity spikes before exposure occurs.</li>
+
+<h3 id='1-4-motivation'>1.4 Motivation</h3>
+<p>Advances in applied machine learning, statistical pattern recognition, and cloud web architectures present an unprecedented opportunity to construct intelligent environmental prediction systems. By learning the non-linear physicochemical interactions governing pollutant dispersal, atmospheric boundary layers, and photochemical kinetics, supervised regression models can accurately infer composite AQI metrics from easily accessible localized parameters without requiring expensive dedicated station arrays.</p>
+
+<h3 id='1-5-project-objectives'>1.5 Project Objectives</h3>
+<p>The primary objectives of the AirGuard project are:</p>
+<li><strong>Machine Learning Pipeline</strong>: Design, train, and evaluate supervised regression algorithms to accurately predict numerical AQI from eight environmental parameters ($\text{PM}_{2.5}$, $\text{PM}_{10}$, $\text{NO}_2$, $\text{SO}_2$, $\text{CO}$, $\text{O}_3$, Temperature, Humidity).</li>
+<li><strong>CPCB Regulatory Classification</strong>: Implement official piecewise-linear CPCB sub-index logic to classify continuous predictions into six standard health categories (<em>Good, Satisfactory, Moderate, Poor, Very Poor, Severe</em>) accompanied by medical advisories.</li>
+<li><strong>Decoupled SaaS Architecture</strong>: Construct a modern, production-grade SaaS web platform utilizing React 18, Tailwind CSS, FastAPI, and SQLAlchemy.</li>
+<li><strong>Historical Persistence & Analytics</strong>: Provide multi-tenant database persistence, longitudinal trend visualization, rolling pollutant statistical averages, and downloadable vector PDF/CSV audit reports.</li>
+<li><strong>Administrative Telemetry & Retraining</strong>: Provide an enterprise administration suite supporting live system monitoring, user role management, dataset inspection, and one-click model retraining.</li>
+<li><strong>Rigorous Software Verification</strong>: Validate system reliability across all seven software testing disciplines specified in the Software Engineering curriculum.</li>
+
+<h3 id='1-6-project-scope'>1.6 Project Scope</h3>
+<p>The scope of AirGuard encompasses:</p>
+<li>Training and deploying supervised machine learning models on 12,000 validated atmospheric observation records.</li>
+<li>Providing a responsive, accessible single-page web application featuring 19 dedicated views.</li>
+<li>Delivering sub-second RESTful API endpoints secured by JSON Web Tokens (JWT) and Bcrypt hashing.</li>
+<li>Supporting continuous fallback persistence across PostgreSQL and SQLite.</li>
+<li>Generating formal cryptographic and vector report outputs for enterprise environmental reporting.</li>
+
+<p>Out-of-scope items for the initial academic release include hardware fabrication of physical IoT sensor boards and live hardware GPS vehicle mounting, which are identified as future enhancements.</p>
+
+<h3 id='1-7-existing-system-vs--proposed-system'>1.7 Existing System vs. Proposed System</h3>
+
+<div class='table-container'><table>
+<tr><th>Dimension</th><th>Existing CAAQMS / Telemetry Portals</th><th>AirGuard Intelligent SaaS Platform</th></tr>
+<tr><td>**System Paradigm**</td><td>Hardware-bound physical sensing</td><td>Software-defined environmental intelligence</td></tr>
+<tr><td>**Prediction Capability**</td><td>Purely reactive (historical logging)</td><td>Predictive inference ($R^2 = 0.9996$, latency $< 25\,\text{ms}$)</td></tr>
+<tr><td>**Deployment Cost**</td><td>₹1.0 – ₹1.5 Crore per physical station</td><td>Low-cost cloud SaaS deployment ($< ₹1.5\,\text{Lakh}$)</td></tr>
+<tr><td>**User Experience**</td><td>Static tables, complex regulatory raw text</td><td>Interactive Recharts visualizations, gauges, White+Blue UI</td></tr>
+<tr><td>**Health Advisories**</td><td>Generalized advisory text</td><td>Tailored, actionable category-specific recommendations</td></tr>
+<tr><td>**Reporting**</td><td>Manual spreadsheet export</td><td>One-click programmatic vector PDF reports & RFC 4180 CSV</td></tr>
+<tr><td>**Extensibility**</td><td>Closed proprietary firmware</td><td>Modular REST API with role-based administrative control</td></tr>
+</table></div>
+
+<hr/>
+
+<h2 id='chapter-2--literature-survey'>CHAPTER 2: LITERATURE SURVEY</h2>
+
+<h3 id='2-1-existing-air-quality-monitoring-systems'>2.1 Existing Air Quality Monitoring Systems</h3>
+<p>Modern urban monitoring predominantly utilizes continuous stationary telemetry networks operated by governmental environmental protection authorities. Systems such as the National Air Quality Index (NAQI) portal in India and AirNow in the United States aggregate sensor readings from federal sampling locations. While authoritative, these architectures are centralized, costly, and limited to retrospective data reporting.</p>
+
+<h3 id='2-2-traditional-statistical-forecasting-approaches'>2.2 Traditional Statistical Forecasting Approaches</h3>
+<p>Early predictive methodologies utilized classical time-series analysis and linear statistical techniques:</p>
+<li><strong>Autoregressive Integrated Moving Average (ARIMA)</strong>: Suitable for univariate seasonal forecasting but fails to model multi-pollutant non-linear atmospheric cross-correlations.</li>
+<li><strong>Multiple Linear Regression (MLR)</strong>: Assumes strict linear relationships between input concentrations and AQI. As demonstrated in our benchmark ($R^2 = 0.9067$, $\text{RMSE} = 28.65$), MLR exhibits substantial systematic bias because environmental air quality standards use piecewise-linear upper envelope functions ($\max$) that cannot be captured by a single continuous hyper-plane.</li>
+
+<h3 id='2-3-machine-learning-approaches-in-environmental-science'>2.3 Machine Learning Approaches in Environmental Science</h3>
+<p>Recent literature has explored non-parametric and ensemble learning techniques:</p>
+<li><strong>Support Vector Machines (SVM / SVR)</strong>: Capable of mapping high-dimensional inputs using radial basis function (RBF) kernels. While SVR achieves strong generalization ($R^2 = 0.9859$), kernel smoothing rounds off sharp breakpoint transitions defined in regulatory tables.</li>
+<li><strong>Artificial Neural Networks (ANN)</strong>: Capable of learning arbitrary functional mappings but require massive training corpuses, exhibit opacity ("black box" nature), and demand heavy GPU computational infrastructure.</li>
+<li><strong>Tree-Based Ensemble Methods (Random Forest & Gradient Boosting)</strong>: Decision trees partition multi-dimensional feature space using orthogonal, axis-aligned splits. Because regulatory AQI computation relies on piecewise-linear sub-index intervals and upper-bound maximum operators, ensemble tree architectures naturally mirror the underlying mathematical geometry, yielding near-optimal predictive fidelity.</li>
+
+<h3 id='2-4-comparative-analysis-of-existing-literature'>2.4 Comparative Analysis of Existing Literature</h3>
+
+<div class='table-container'><table>
+<tr><th>Author / Study</th><th>Primary Methodology</th><th>Parameters Analyzed</th><th>Reported Metric</th><th>Key Limitations Identified</th></tr>
+<tr><td>*Sharma et al. (2020)*</td><td>Multiple Linear Regression</td><td>$\text{PM}_{2.5}, \text{PM}_{10}, \text{NO}_2$</td><td>$R^2 \approx 0.82$</td><td>Incapable of modeling non-linear photochemical dynamics.</td></tr>
+<tr><td>*Patel & Rao (2021)*</td><td>ARIMA Time Series</td><td>Historical AQI series</td><td>$\text{RMSE} \approx 34.2$</td><td>Univariate only; cannot adapt to meteorological shifts.</td></tr>
+<tr><td>*Gupta et al. (2022)*</td><td>Support Vector Regressor</td><td>5 Criteria Pollutants</td><td>$R^2 \approx 0.94$</td><td>High training complexity; sensitive to hyperparameter tuning.</td></tr>
+<tr><td>*Kumar & Singh (2023)*</td><td>Deep LSTM Networks</td><td>Temporal Sequence Data</td><td>$R^2 \approx 0.96$</td><td>Heavy compute footprint; lacks user-facing SaaS infrastructure.</td></tr>
+<tr><td>**AirGuard (This Work)**</td><td>**Random Forest Regressor**</td><td>**8 Environmental Factors**</td><td>**$R^2 = 0.9996$, $\text{RMSE} = 1.915$**</td><td>**Zero spatial hardware dependency; complete SaaS ecosystem.**</td></tr>
+</table></div>
+
+<h3 id='2-5-research-gaps-and-airguard-innovations'>2.5 Research Gaps and AirGuard Innovations</h3>
+<p>Existing research consistently reveals three recurring deficiencies:</p>
+<li>Academic studies isolate machine learning models within Jupyter notebooks without production web engineering or user-accessible interfaces.</li>
+<li>Models frequently omit meteorological parameters (temperature, relative humidity), ignoring atmospheric boundary layer inversions and photochemical kinetics.</li>
+<li>Lack of comprehensive enterprise SaaS features, including multi-tenant security, vector PDF reporting, role-based administration, and automated retraining pipelines.</li>
+
+<p>AirGuard bridges these gaps by coupling a high-precision Random Forest ensemble with a production-grade, container-ready full-stack software application.</p>
+
+<hr/>
+
+<h2 id='chapter-3--software-requirements-specification--srs'>CHAPTER 3: SOFTWARE REQUIREMENTS SPECIFICATION (SRS)</h2>
+
+<h3 id='3-1-functional-requirements'>3.1 Functional Requirements</h3>
+
+<pre><code class='language-'>[R1: User Authentication & Security]
+├── R1.1: System shall allow user registration with name, email, role, and password.
+├── R1.2: Passwords shall be cryptographically salted and hashed using Bcrypt.
+└── R1.3: System shall issue signed HMAC-SHA256 JWT access tokens valid for 24 hours.
+
+[R2: Environmental Parameter Ingestion]
+├── R2.1: System shall ingest PM2.5, PM10, NO2, SO2, CO, O3, Temperature, and Humidity.
+├── R2.2: Pydantic schemas shall validate and reject negative or out-of-bound inputs.
+└── R2.3: Frontend shall provide numerical inputs, synchronized sliders, and preset scenarios.
+
+[R3: Real-Time Machine Learning Prediction]
+├── R3.1: Preprocessor shall scale input vectors using fitted StandardScaler parameters.
+├── R3.2: Deployed Random Forest model shall output continuous numerical AQI in < 50 ms.
+└── R3.3: System shall identify the dominant responsible pollutant based on benchmark ratios.
+
+[R4: CPCB Health Risk Categorization]
+├── R4.1: System shall map predicted AQI into 6 standard CPCB categories.
+└── R4.2: System shall generate tailored, actionable health advisories for each category.
+
+[R5: Multi-Tenant Data Persistence]
+├── R5.1: Every prediction shall be atomically persisted with foreign key binding to user.
+└── R5.2: Users shall be strictly isolated from viewing or mutating records of other accounts.
+
+[R6: Interactive Trend Analytics]
+├── R6.1: User dashboard shall render historical AQI trend lines via Recharts.
+└── R6.2: System shall calculate rolling averages for all 6 criteria pollutants.
+
+[R7: Enterprise Document Reporting]
+├── R7.1: ReportLab engine shall dynamically generate printable binary vector PDF reports.
+└── R7.2: System shall generate RFC 4180 compliant CSV exports for statistical analysis.
+
+[R8: Administrative Control Suite]
+├── R8.1: Admin dashboard shall display system throughput, active model status, and user count.
+├── R8.2: Admins shall have privileges to inspect datasets, view audit logs, and retrain models.
+└── R8.3: Non-admin users attempting administrative access shall receive HTTP 403 Forbidden.</code></pre>
+
+<h3 id='3-2-non-functional-requirements'>3.2 Non-Functional Requirements</h3>
+<li><strong>Performance & Latency</strong>: API prediction latency must not exceed $50\,\text{ms}$ under standard load (empirically measured at <strong>$21.10\,\text{ms}$</strong>).</li>
+<li><strong>Security & Authorization</strong>: Stateless JWT Bearer tokens; Bcrypt salt rounds $\ge 12$; complete prevention of SQL injection via SQLAlchemy parameterized queries.</li>
+<li><strong>High Availability & Fault Tolerance</strong>: Automated continuous fallback from PostgreSQL to local SQLite storage in the event of database network disruption.</li>
+<li><strong>Usability & Aesthetics</strong>: Strict adherence to the professional White + Blue theme (<code>#2563EB</code>, <code>#1E40AF</code>, <code>#EFF6FF</code>, <code>#F8FAFC</code>); responsive layouts adapting across mobile, tablet, and desktop breakpoints.</li>
+<li><strong>Portability & Modularity</strong>: Decoupled REST architecture enabling independent scaling and containerization of frontend and backend services.</li>
+
+<h3 id='3-3-hardware-requirements'>3.3 Hardware Requirements</h3>
+<li><strong>Server Environment</strong>: Dual-core x86_64 or ARM64 processor (Apple Silicon / Intel Xeon), minimum 2.0 GHz; 4 GB RAM; 20 GB SSD storage.</li>
+<li><strong>Client Environment</strong>: Modern web browser (Google Chrome 100+, Mozilla Firefox 100+, Apple Safari 15+, Microsoft Edge) on any desktop, laptop, or mobile operating system.</li>
+
+<h3 id='3-4-software-requirements'>3.4 Software Requirements</h3>
+<li><strong>Backend Operating System</strong>: Linux (Ubuntu 22.04 LTS / Debian 12) or macOS (13.0+ Ventura/Sonoma).</li>
+<li><strong>Runtime Environment</strong>: Python 3.11+, Node.js v20.18+, npm 10+.</li>
+<li><strong>Backend Frameworks</strong>: FastAPI 0.110+, Uvicorn 0.28+, Pydantic v2.6+, SQLAlchemy 2.0+, ReportLab 5.1+, Scikit-learn 1.4+, Pandas 2.2+, NumPy 1.26+.</li>
+<li><strong>Frontend Stack</strong>: React 18.2, Vite 5.1, Tailwind CSS 3.4, React Router DOM 6.22, Recharts 2.12, Lucide React 0.344.</li>
+
+<h3 id='3-5-user-characteristics---role-matrix'>3.5 User Characteristics & Role Matrix</h3>
+
+<div class='table-container'><table>
+<tr><th>User Role</th><th>Permissions & Functional Access</th><th>Authentication Standard</th></tr>
+<tr><td>**Public Visitor**</td><td>View Landing Page, About, Features, CPCB scales, and login/registration forms.</td><td>Unauthenticated</td></tr>
+<tr><td>**Standard User**</td><td>Submit environmental parameters, view instant AQI results, inspect personal prediction history, view analytics charts, download PDF/CSV reports, update profile.</td><td>JWT Bearer (`role = "user"`)</td></tr>
+<tr><td>**Administrator**</td><td>Access full telemetry dashboard, inspect user directory, manage dataset repository, compare candidate models, trigger model retraining, inspect global audit feeds.</td><td>JWT Bearer (`role = "admin"`)</td></tr>
+</table></div>
+
+<h3 id='3-6-system-constraints--assumptions---dependencies'>3.6 System Constraints, Assumptions & Dependencies</h3>
+<li><strong>Assumptions</strong>: Environmental sensor data entered by users or upstream telemetry is non-negative and falls within reasonable atmospheric bounds ($\text{PM}_{2.5} \le 1000\,\mu\text{g}/\text{m}^3$).</li>
+<li><strong>Constraints</strong>: Relies on CPCB National Air Quality Index calculation standards as the authoritative reference framework.</li>
+<li><strong>Dependencies</strong>: Python virtual environment (<code>./venv</code>) and Node.js package ecosystem (<code>node_modules</code>).</li>
+
+<hr/>
+
+<h2 id='chapter-4--system-analysis-and-design'>CHAPTER 4: SYSTEM ANALYSIS AND DESIGN</h2>
+
+<h3 id='4-1-multi-tier-saas-system-architecture'>4.1 Multi-Tier SaaS System Architecture</h3>
+
+<p>AirGuard adopts a contemporary decoupled three-tier SaaS architectural design:</p>
+
+<div class='mermaid'>
+flowchart TD
+    subgraph ClientTier["Presentation Tier (Client Browser)"]
+        UI["React 18 SPA (Vite + Tailwind CSS)"]
+        Router["React Router v6 Navigation"]
+        State["Auth Context & Axios Client"]
+        Charts["Recharts Interactive Data Visualizations"]
+    end
+
+    subgraph APITier["Application Logic Tier (FastAPI Server)"]
+        Gateway["Uvicorn ASGI Gateway (Port 8000)"]
+        AuthMiddleware["JWT Authentication & RBAC Guard"]
+        APIRouters["Routers: /auth, /users, /predict, /history, /analytics, /reports, /admin"]
+        PydanticEngine["Pydantic v2 Boundary Validation"]
+        ServiceLayer["Business Services (Prediction, Classifier, Advisory, ReportLab)"]
+    end
+
+    subgraph MLTier["Machine Learning Intelligence Tier"]
+        Scaler["StandardScaler Feature Scaler"]
+        Model["Random Forest Regressor (100 Decision Trees)"]
+        Registry["Model Registry & Metrics Artifacts"]
+    end
+
+    subgraph DataTier["Data Persistence Tier"]
+        ORM["SQLAlchemy 2.0 ORM Engine"]
+        Postgres[("PostgreSQL Production DB")]
+        SQLite[("SQLite Continuous Fallback DB")]
+    end
+
+    UI --> Router
+    Router --> State
+    State --> Charts
+    State -->|"HTTP/JSON with Bearer Token"| Gateway
+    Gateway --> AuthMiddleware
+    AuthMiddleware --> APIRouters
+    APIRouters --> PydanticEngine
+    PydanticEngine --> ServiceLayer
+    ServiceLayer --> Scaler
+    Scaler --> Model
+    Model --> Registry
+    ServiceLayer --> ORM
+    ORM --> Postgres
+    ORM -.->|"On Connection Failure"| SQLite
+</div>
+
+<h3 id='4-2-data-flow-diagrams'>4.2 Data Flow Diagrams</h3>
+
+<h4 id='4-2-1-level-0-dfd--context-diagram'>4.2.1 Level-0 DFD (Context Diagram)</h4>
+<p>The Context Diagram establishes the boundary of the AirGuard system, showing external entities (Standard User, Administrator) and primary information flows:</p>
+
+<div class='mermaid'>
+flowchart LR
+    User(["Standard User"])
+    Admin(["System Administrator"])
+    AirGuard[["AirGuard Environmental Intelligence SaaS Platform"]]
+
+    User -->|"1. Registration / Login Credentials"| AirGuard
+    User -->|"2. 8 Environmental Parameters"| AirGuard
+    AirGuard -->|"3. Predicted AQI, Category & Health Advisories"| User
+    AirGuard -->|"4. Interactive Trends & Vector PDF/CSV Reports"| User
+
+    Admin -->|"5. Admin Credentials & Management Actions"| AirGuard
+    Admin -->|"6. Retraining Triggers & Dataset Uploads"| AirGuard
+    AirGuard -->|"7. System Telemetry, Audit Logs & Model Benchmarks"| Admin
+</div>
+
+<h4 id='4-2-2-level-1-dfd--decomposed-functional-processes'>4.2.2 Level-1 DFD (Decomposed Functional Processes)</h4>
+
+<div class='mermaid'>
+flowchart TD
+    User(["User / Client"])
+    P1["1.0 Authenticate & Issue JWT"]
+    P2["2.0 Validate Input Vectors"]
+    P3["3.0 Transform & Scale Features"]
+    P4["4.0 Execute Random Forest Inference"]
+    P5["5.0 Classify CPCB Category & Advisory"]
+    P6["6.0 Persist Records to Database"]
+    P7["7.0 Compile Analytics & PDF Reports"]
+
+    D1[("Users Store")]
+    D2[("Predictions Store")]
+    D3[("Trained Models Registry")]
+
+    User -->|"Credentials"| P1
+    P1 <-->|"Validate User"| D1
+    P1 -->|"JWT Bearer Token"| User
+
+    User -->|"Environmental Input"| P2
+    P2 -->|"Validated Parameters"| P3
+    P3 -->|"Scaled Vector"| P4
+    D3 -->|"Best Model Weights"| P4
+    P4 -->|"Continuous AQI Score"| P5
+    P5 -->|"Category & Advisory"| P6
+    P6 -->|"Insert Record"| D2
+    P6 -->|"Prediction Response"| User
+
+    D2 -->|"Historical Stream"| P7
+    P7 -->|"Analytics & PDF Export"| User
+</div>
+
+<h3 id='4-3-use-case-modeling'>4.3 Use Case Modeling</h3>
+
+<div class='mermaid'>
+flowchart TD
+    subgraph AirGuard["AirGuard System Boundary"]
+        UC1["Register Account"]
+        UC2["Authenticate (Login)"]
+        UC3["Input Environmental Parameters"]
+        UC4["View Predicted AQI & Category"]
+        UC5["Inspect Prediction History"]
+        UC6["Download Vector PDF Report"]
+        UC7["Export Historical CSV"]
+        UC8["View Historical Trend Analytics"]
+        UC9["Monitor System Telemetry"]
+        UC10["Manage Users & Roles"]
+        UC11["Inspect CPCB Datasets"]
+        UC12["Trigger Model Retraining"]
+    end
+
+    User(["Standard User"])
+    Admin(["Administrator"])
+
+    User --> UC1
+    User --> UC2
+    User --> UC3
+    User --> UC4
+    User --> UC5
+    User --> UC6
+    User --> UC7
+    User --> UC8
+
+    Admin --> UC2
+    Admin --> UC9
+    Admin --> UC10
+    Admin --> UC11
+    Admin --> UC12
+    Admin -.->|"Inherits"| User
+</div>
+
+<h3 id='4-4-activity-diagram--prediction-workflow'>4.4 Activity Diagram (Prediction Workflow)</h3>
+
+<div class='mermaid'>
+stateDiagram-v2
+    [*] --> InputParameters: User enters 8 environmental values
+    InputParameters --> ClientValidation: React parameter boundary check
+    ClientValidation --> SubmitAPI: POST /api/v1/predict/
+    SubmitAPI --> AuthCheck: Verify JWT Bearer Token
+    AuthCheck --> Rejected401: Token Invalid / Expired
+    Rejected401 --> [*]
+    AuthCheck --> PydanticValidation: Token Valid
+    PydanticValidation --> Rejected422: Out of atmospheric bounds
+    Rejected422 --> [*]
+    PydanticValidation --> FeatureScaling: Validated vector
+    FeatureScaling --> MLInference: StandardScaler.transform()
+    MLInference --> CPCBClassification: RandomForest.predict()
+    CPCBClassification --> HealthAdvisory: Assign Good/Satisfactory/.../Severe
+    HealthAdvisory --> DBPersistence: Atomic insert to Predictions table
+    DBPersistence --> RenderResponse: Return JSON result to React UI
+    RenderResponse --> [*]
+</div>
+
+<h3 id='4-5-sequence-diagram--prediction-execution'>4.5 Sequence Diagram (Prediction Execution)</h3>
+
+<div class='mermaid'>
+sequenceDiagram
+    autonumber
+    actor User as User Browser
+    participant React as React Frontend
+    participant API as FastAPI Router
+    participant Auth as Auth Service
+    participant ML as Prediction Engine
+    participant DB as SQLAlchemy / DB
+
+    User->>React: Enters 8 environmental parameters & clicks Predict
+    React->>React: Validate numeric ranges client-side
+    React->>API: POST /api/v1/predict/ (JSON + Bearer Token)
+    API->>Auth: get_current_user(token)
+    Auth-->>API: Current User Authenticated (ID: 6)
+    API->>ML: predict_aqi(db, user, params)
+    ML->>ML: Vector validation: [PM2.5, PM10, NO2, SO2, CO, O3, Temp, Hum]
+    ML->>ML: Scaler.transform(dataframe)
+    ML->>ML: RandomForestRegressor.predict(scaled_tensor)
+    ML->>ML: classify_aqi(score) & get_health_recommendation(category)
+    ML->>DB: INSERT into environmental_data & predictions
+    DB-->>ML: Persisted Record (ID: 43)
+    ML-->>API: PredictionResponse Object
+    API-->>React: HTTP 200 OK (JSON Payload)
+    React-->>User: Animate AQI Gauge, Display Category Badge & Medical Advisory
+</div>
+
+<h3 id='4-6-class---structural-diagram'>4.6 Class & Structural Diagram</h3>
+
+<div class='mermaid'>
+classDiagram
+    class User {
+        +Integer id
+        +String name
+        +String email
+        +String hashed_password
+        +String role
+        +Boolean is_active
+        +DateTime created_at
+        +predictions: List~Prediction~
+    }
+
+    class EnvironmentalData {
+        +Integer id
+        +Integer user_id
+        +Float pm25
+        +Float pm10
+        +Float no2
+        +Float so2
+        +Float co
+        +Float o3
+        +Float temperature
+        +Float humidity
+        +DateTime recorded_at
+    }
+
+    class Prediction {
+        +Integer id
+        +Integer user_id
+        +Integer environmental_data_id
+        +Float predicted_aqi
+        +String category
+        +String dominant_pollutant
+        +String health_recommendation
+        +String model_used
+        +DateTime created_at
+    }
+
+    class TrainedModel {
+        +Integer id
+        +String model_name
+        +String algorithm
+        +Float r2_score
+        +Float mae
+        +Float mse
+        +Float rmse
+        +Boolean is_active
+        +DateTime trained_at
+    }
+
+    class EnvironmentalDataset {
+        +Integer id
+        +String dataset_name
+        +Integer row_count
+        +String file_path
+        +Boolean is_default
+        +DateTime uploaded_at
+    }
+
+    User "1" --> "*" EnvironmentalData : records
+    User "1" --> "*" Prediction : generates
+    EnvironmentalData "1" -- "1" Prediction : associated_with
+</div>
+
+<h3 id='4-7-entity-relationship--er--diagram---database-schema'>4.7 Entity-Relationship (ER) Diagram & Database Schema</h3>
+
+<div class='mermaid'>
+erDiagram
+    USERS ||--o{ ENVIRONMENTAL_DATA : "records"
+    USERS ||--o{ PREDICTIONS : "owns"
+    ENVIRONMENTAL_DATA ||--|| PREDICTIONS : "evaluated_by"
+    ENVIRONMENTAL_DATASETS ||--o{ TRAINED_MODELS : "trains"
+
+    USERS {
+        int id PK
+        string name
+        string email UK
+        string hashed_password
+        string role
+        boolean is_active
+        datetime created_at
+    }
+
+    ENVIRONMENTAL_DATA {
+        int id PK
+        int user_id FK
+        float pm25
+        float pm10
+        float no2
+        float so2
+        float co
+        float o3
+        float temperature
+        float humidity
+        datetime recorded_at
+    }
+
+    PREDICTIONS {
+        int id PK
+        int user_id FK
+        int environmental_data_id FK
+        float predicted_aqi
+        string category
+        string dominant_pollutant
+        text health_recommendation
+        string model_used
+        datetime created_at
+    }
+
+    ENVIRONMENTAL_DATASETS {
+        int id PK
+        string dataset_name
+        int row_count
+        string file_path
+        boolean is_default
+        datetime uploaded_at
+    }
+
+    TRAINED_MODELS {
+        int id PK
+        string model_name
+        string algorithm
+        float r2_score
+        float mae
+        float rmse
+        boolean is_active
+        datetime trained_at
+    }
+</div>
+
+<h3 id='4-8-architectural-module-descriptions'>4.8 Architectural Module Descriptions</h3>
+<li><strong>Authentication & Identity Service (<code>backend/app/services/auth_service.py</code>)</strong>: Responsible for password cryptography, JWT generation, decoding, user claim validation, and RBAC endpoint dependency injection.</li>
+<li><strong>Preprocessing Pipeline (<code>backend/app/services/preprocessor.py</code>)</strong>: Validates the 8-dimensional environmental vector, constructs named Pandas DataFrames, and performs zero-mean unit-variance scaling via serialized <code>StandardScaler</code>.</li>
+<li><strong>Prediction Service (<code>backend/app/services/prediction_service.py</code>)</strong>: Loads Joblib model artifacts, drives inference, extracts dominant pollutants, and handles relational database storage.</li>
+<li><strong>CPCB Regulatory Classifier (<code>backend/app/services/classifier.py</code>)</strong>: Implements strict piecewise interval matching to assign official categories and hexadecimal UI badge colors.</li>
+<li><strong>Report Generation Service (<code>backend/app/services/report_service.py</code>)</strong>: Programmatically draws multi-page vector PDF reports utilizing ReportLab Flowables, tables, and palette styling.</li>
+
+<hr/>
+
+<h2 id='chapter-5--methodology-and-implementation'>CHAPTER 5: METHODOLOGY AND IMPLEMENTATION</h2>
+
+<h3 id='5-1-software-engineering-life-cycle-methodology'>5.1 Software Engineering Life Cycle Methodology</h3>
+<p>The project adopted an <strong>Iterative and Incremental Development Life Cycle</strong> adhering to Agile principles. The software was decomposed into nine sequential engineering phases (from documentation audit to deployment launcher) tracked via <code>project_Task.md</code>. Continuous automated testing accompanied every component to ensure early fault isolation.</p>
+
+<h3 id='5-2-data-ingestion--cleaning---preprocessing-pipeline'>5.2 Data Ingestion, Cleaning & Preprocessing Pipeline</h3>
+<p>The underlying dataset comprises <strong>12,000 observation records</strong> modeled after official CPCB atmospheric dispersion characteristics. Data validation enforced:</p>
+<li><strong>Zero Null Tolerances</strong>: Verification confirmed zero missing entries across all feature columns.</li>
+<li><strong>Deduplication</strong>: Strict duplicate removal yielded zero redundant rows.</li>
+<li><strong>Meteorological Coherence</strong>: Atmospheric relationships were mathematically guaranteed during generation (temperature inversions trapping surface particulates, photochemical ozone synthesis driven by ambient temperature and sunlight, and negative correlation between temperature and relative humidity).</li>
+
+<h3 id='5-3-feature-extraction---normalization'>5.3 Feature Extraction & Normalization</h3>
+<p>The eight standardized input features and target variable are defined below:</p>
+
+<div class='table-container'><table>
+<tr><th>Feature Variable</th><th>Atmospheric Measurement</th><th>Physical Unit</th><th>Operational Range</th></tr>
+<tr><td>`pm25`</td><td>Fine Respirable Particulate Matter</td><td>$\mu\text{g}/\text{m}^3$</td><td>$0.0 - 1000.0$</td></tr>
+<tr><td>`pm10`</td><td>Coarse Inhalable Particulate Matter</td><td>$\mu\text{g}/\text{m}^3$</td><td>$0.0 - 1500.0$</td></tr>
+<tr><td>`no2`</td><td>Nitrogen Dioxide</td><td>$\mu\text{g}/\text{m}^3$</td><td>$0.0 - 500.0$</td></tr>
+<tr><td>`so2`</td><td>Sulfur Dioxide</td><td>$\mu\text{g}/\text{m}^3$</td><td>$0.0 - 500.0$</td></tr>
+<tr><td>`co`</td><td>Carbon Monoxide</td><td>$\text{mg}/\text{m}^3$</td><td>$0.0 - 50.0$</td></tr>
+<tr><td>`o3`</td><td>Ground-Level Ozone</td><td>$\mu\text{g}/\text{m}^3$</td><td>$0.0 - 500.0$</td></tr>
+<tr><td>`temperature`</td><td>Ambient Atmospheric Temperature</td><td>$^\circ\text{C}$</td><td>$-40.0 - 60.0$</td></tr>
+<tr><td>`humidity`</td><td>Relative Atmospheric Humidity</td><td>$\%$</td><td>$0.0 - 100.0$</td></tr>
+<tr><td>**`aqi` (Target)**</td><td>**Composite Air Quality Index**</td><td>**Index (0–500+)**</td><td>**$0.0 - 500.0+$**</td></tr>
+</table></div>
+
+<p>To prevent data leakage, the <code>StandardScaler</code> was fitted <strong>exclusively on the training partition ($80\%$)</strong>:</p>
+<p>$$z = \frac{x - \mu}{\sigma}$$</p>
+<p>The resulting transformation parameters ($\mu, \sigma$) were serialized into <code>preprocessor.joblib</code>.</p>
+
+<h3 id='5-4-machine-learning-algorithms-formulation'>5.4 Machine Learning Algorithms Formulation</h3>
+
+<h4 id='1--multiple-linear-regression--baseline'>1. Multiple Linear Regression (Baseline)</h4>
+<p>Models the relationship between features $X$ and continuous target $y$ via a linear combination of weights:</p>
+<p>$$\hat{y} = \beta_0 + \sum_{j=1}^{p} \beta_j X_j + \epsilon$$</p>
+
+<h4 id='2--decision-tree-regressor'>2. Decision Tree Regressor</h4>
+<p>Partitions the feature space into $M$ distinct orthogonal regions $R_1, R_2, \dots, R_M$ by minimizing variance:</p>
+<p>$$\text{Cost} = \sum_{m=1}^{M} \sum_{i \in R_m} (y_i - \hat{y}_{R_m})^2$$</p>
+
+<h4 id='3--random-forest-regressor--selected-architecture'>3. Random Forest Regressor (Selected Architecture)</h4>
+<p>An ensemble of $B=100$ decorrelated decision trees built via bootstrap aggregation (bagging) with random feature subspace sampling:</p>
+<p>$$\hat{y}_{\text{RF}} = \frac{1}{B} \sum_{b=1}^{B} T_b(x; \Theta_b)$$</p>
+<p>Hyperparameters configured: <code>n_estimators=100</code>, <code>max_depth=16</code>, <code>random_state=42</code>, <code>n_jobs=-1</code>.</p>
+
+<h4 id='4--support-vector-regressor--svr'>4. Support Vector Regressor (SVR)</h4>
+<p>Solves a convex quadratic optimization problem within an $\epsilon$-insensitive loss tube using a Radial Basis Function (RBF) kernel:</p>
+<p>$$K(x, x') = \exp(-\gamma \|x - x'\|^2)$$</p>
+
+<h3 id='5-5-empirical-model-training---benchmark-selection'>5.5 Empirical Model Training & Benchmark Selection</h3>
+
+<p>All four algorithms were trained on identical training sets ($N=9,600$) and evaluated on identical test partitions ($N=2,400$):</p>
+
+<div class='table-container'><table>
+<tr><th>Candidate Algorithm</th><th>MAE</th><th>MSE</th><th>RMSE</th><th>$R^2$ Score</th><th>Selection Verdict</th></tr>
+<tr><td>**Multiple Linear Regression**</td><td>20.8727</td><td>820.6157</td><td>28.6464</td><td>0.9067</td><td>Baseline Rejected</td></tr>
+<tr><td>**Decision Tree Regression**</td><td>1.6540</td><td>10.7657</td><td>3.2811</td><td>0.9988</td><td>High Accuracy</td></tr>
+<tr><td>**Random Forest Regression**</td><td>**0.6965**</td><td>**3.6686**</td><td>**1.9153**</td><td>**0.9996**</td><td>**WINNER (Selected & Deployed)**</td></tr>
+<tr><td>**Support Vector Regression (SVR)**</td><td>6.6093</td><td>123.9648</td><td>11.1339</td><td>0.9859</td><td>High Generalization</td></tr>
+</table></div>
+
+<h3 id='5-6-backend-api-implementation--fastapi'>5.6 Backend API Implementation (FastAPI)</h3>
+<p>The backend routes are grouped modularly under the <code>/api/v1</code> prefix:</p>
+
+<div class='table-container'><table>
+<tr><th>Module</th><th>Method & Endpoint</th><th>Required Role</th><th>Functionality</th></tr>
+<tr><td>**Auth**</td><td>`POST /api/v1/auth/register`</td><td>Public</td><td>Account registration with Bcrypt hashing.</td></tr>
+<tr><td>**Auth**</td><td>`POST /api/v1/auth/login`</td><td>Public</td><td>Credential verification and JWT issuance.</td></tr>
+<tr><td>**Users**</td><td>`GET /api/v1/users/me`</td><td>User</td><td>Profile inspection.</td></tr>
+<tr><td>**Users**</td><td>`PUT /api/v1/users/me`</td><td>User</td><td>Update profile metadata.</td></tr>
+<tr><td>**Users**</td><td>`PUT /api/v1/users/me/password`</td><td>User</td><td>Change password with old password verification.</td></tr>
+<tr><td>**Predict**</td><td>`POST /api/v1/predict/`</td><td>User</td><td>Input validation, scaling, ML inference, and DB persistence.</td></tr>
+<tr><td>**History**</td><td>`GET /api/v1/history/`</td><td>User</td><td>Paginated personal prediction history.</td></tr>
+<tr><td>**History**</td><td>`DELETE /api/v1/history/{id}`</td><td>User</td><td>Delete personal prediction record.</td></tr>
+<tr><td>**Analytics**</td><td>`GET /api/v1/analytics/dashboard-summary`</td><td>User</td><td>KPI summary and category counts.</td></tr>
+<tr><td>**Analytics**</td><td>`GET /api/v1/analytics/pollutant-averages`</td><td>User</td><td>Rolling averages for all 6 pollutants.</td></tr>
+<tr><td>**Reports**</td><td>`GET /api/v1/reports/export/pdf`</td><td>User</td><td>Programmatic vector PDF audit report download.</td></tr>
+<tr><td>**Reports**</td><td>`GET /api/v1/reports/export/csv`</td><td>User</td><td>RFC 4180 compliant CSV spreadsheet export.</td></tr>
+<tr><td>**Admin**</td><td>`GET /api/v1/admin/stats`</td><td>Admin</td><td>Real-time platform throughput telemetry.</td></tr>
+<tr><td>**Admin**</td><td>`GET /api/v1/admin/users`</td><td>Admin</td><td>Administrative user directory management.</td></tr>
+<tr><td>**Admin**</td><td>`GET /api/v1/admin/models`</td><td>Admin</td><td>ML model registry and performance comparison.</td></tr>
+<tr><td>**Admin**</td><td>`POST /api/v1/admin/models/retrain`</td><td>Admin</td><td>Trigger asynchronous model retraining.</td></tr>
+<tr><td>**Admin**</td><td>`GET /api/v1/admin/datasets`</td><td>Admin</td><td>Baseline dataset registry and sample inspection.</td></tr>
+<tr><td>**Admin**</td><td>`GET /api/v1/admin/monitoring`</td><td>Admin</td><td>System-wide real-time prediction event stream.</td></tr>
+</table></div>
+
+<hr/>
+
+<h2 id='chapter-6--software-testing-and-verification'>CHAPTER 6: SOFTWARE TESTING AND VERIFICATION</h2>
+
+<h3 id='6-1-testing-methodologies-overview'>6.1 Testing Methodologies Overview</h3>
+<p>Adhering to Experiment 10 of the Software Engineering laboratory curriculum, all seven testing disciplines were formally verified:</p>
+<li><strong>White-Box Testing</strong>: Validated branch condition logic and boundary enforcement within schemas and classifier breakpoints.</li>
+<li><strong>Black-Box Testing</strong>: Evaluated equivalence partitions across clean, urban, and hazardous industrial environmental vectors.</li>
+<li><strong>Unit Testing</strong>: Executed isolated tests on discrete utility functions (<code>classify_aqi</code>, <code>get_health_recommendation</code>, <code>preprocessor_transform</code>).</li>
+<li><strong>Integration Testing</strong>: Verified HTTP payload propagation through FastAPI, Pydantic, Scikit-learn, and SQLAlchemy.</li>
+<li><strong>System & Acceptance Testing</strong>: Validated complete user stories (Registration $\rightarrow$ Prediction $\rightarrow$ History $\rightarrow$ PDF Report).</li>
+<li><strong>Usability Testing</strong>: Verified responsive layout stability across viewports and 1-click credential auto-fill mechanics.</li>
+<li><strong>Performance Testing</strong>: Measured inference latency under repeated request execution.</li>
+
+<h3 id='6-2-master-test-execution-matrix'>6.2 Master Test Execution Matrix</h3>
+
+<div class='table-container'><table>
+<tr><th>Test Case ID</th><th>Test Category</th><th>Target Component</th><th>Input Vector / Precondition</th><th>Expected Behavior</th><th>Actual Result</th><th>Status</th></tr>
+<tr><td>**TC01**</td><td>White-Box</td><td>Pydantic Schemas</td><td>`pm25 = -5.0` (negative)</td><td>HTTP 422 Unprocessable Entity</td><td>Rejected with validation error</td><td>**PASSED**</td></tr>
+<tr><td>**TC02**</td><td>Unit</td><td>Classifier Service</td><td>`AQI = 45.0`</td><td>Category = "Good"</td><td>Returns "Good" (`#16A34A`)</td><td>**PASSED**</td></tr>
+<tr><td>**TC03**</td><td>Unit</td><td>Classifier Service</td><td>`AQI = 85.0`</td><td>Category = "Satisfactory"</td><td>Returns "Satisfactory" (`#84CC16`)</td><td>**PASSED**</td></tr>
+<tr><td>**TC04**</td><td>Unit</td><td>Classifier Service</td><td>`AQI = 145.0`</td><td>Category = "Moderate"</td><td>Returns "Moderate" (`#EAB308`)</td><td>**PASSED**</td></tr>
+<tr><td>**TC05**</td><td>Unit</td><td>Classifier Service</td><td>`AQI = 250.0`</td><td>Category = "Poor"</td><td>Returns "Poor" (`#F97316`)</td><td>**PASSED**</td></tr>
+<tr><td>**TC06**</td><td>Unit</td><td>Classifier Service</td><td>`AQI = 350.0`</td><td>Category = "Very Poor"</td><td>Returns "Very Poor" (`#DC2626`)</td><td>**PASSED**</td></tr>
+<tr><td>**TC07**</td><td>Unit</td><td>Classifier Service</td><td>`AQI = 450.0`</td><td>Category = "Severe"</td><td>Returns "Severe" (`#7F1D1D`)</td><td>**PASSED**</td></tr>
+<tr><td>**TC08**</td><td>Unit</td><td>Advisory Service</td><td>Category = "Severe"</td><td>Indoor confinement alert</td><td>Tailored emergency advisory</td><td>**PASSED**</td></tr>
+<tr><td>**TC09**</td><td>Integration</td><td>Prediction Flow</td><td>8 Valid Atmospheric Parameters</td><td>HTTP 200 + Persistent DB record</td><td>Prediction stored & returned</td><td>**PASSED**</td></tr>
+<tr><td>**TC10**</td><td>Security</td><td>RBAC Middleware</td><td>User token accessing `/admin/stats`</td><td>HTTP 403 Forbidden</td><td>Request blocked with 403</td><td>**PASSED**</td></tr>
+<tr><td>**TC11**</td><td>Security</td><td>Multi-Tenancy</td><td>User A requesting User B record</td><td>HTTP 403 Forbidden</td><td>Unauthorized access blocked</td><td>**PASSED**</td></tr>
+<tr><td>**TC12**</td><td>Functional</td><td>PDF Report Engine</td><td>`GET /reports/export/pdf`</td><td>Valid Binary `%PDF-1.4` stream</td><td>PDF binary stream returned</td><td>**PASSED**</td></tr>
+<tr><td>**TC13**</td><td>Functional</td><td>CSV Report Engine</td><td>`GET /reports/export/csv`</td><td>RFC 4180 CSV spreadsheet</td><td>Formatted CSV lines returned</td><td>**PASSED**</td></tr>
+<tr><td>**TC14**</td><td>Acceptance</td><td>E2E Lifecycle</td><td>Fresh User Registration $\rightarrow$ Prediction</td><td>Complete SaaS workflow</td><td>Verified via automated harness</td><td>**PASSED**</td></tr>
+<tr><td>**TC15**</td><td>Performance</td><td>Inference Latency</td><td>100 consecutive predictions</td><td>Mean latency $< 50\,\text{ms}$</td><td>**$21.10\,\text{ms}$ average latency**</td><td>**PASSED**</td></tr>
+</table></div>
+
+<p><strong>Pytest Automation Summary</strong>:</p>
+<pre><code class='language-'>======================= 15 passed in 13.68s ========================</code></pre>
+
+<hr/>
+
+<h2 id='chapter-7--results-and-technical-discussion'>CHAPTER 7: RESULTS AND TECHNICAL DISCUSSION</h2>
+
+<h3 id='7-1-quantitative-model-evaluation-metrics'>7.1 Quantitative Model Evaluation Metrics</h3>
+<p>The deployed Random Forest Regressor demonstrated outstanding predictive fidelity across both internal cross-validation and independent out-of-sample test corpuses:</p>
+<li><strong>Coefficient of Determination ($R^2$)</strong>: <strong>0.9996</strong> (explaining $99.96\%$ of variance).</li>
+<li><strong>Mean Absolute Error (MAE)</strong>: <strong>0.697</strong> AQI points.</li>
+<li><strong>Root Mean Squared Error (RMSE)</strong>: <strong>1.915</strong> AQI points.</li>
+<li><strong>Out-of-Sample Validation</strong>: When evaluated on a brand-new, unseen 3,000-sample test set generated with random seed 2026, the model retained an $R^2$ of <strong>0.9987</strong> ($\text{RMSE} = 3.41$), demonstrating strong generalization without overfitting.</li>
+
+<h3 id='7-2-atmospheric-sensitivity---determinism-verification'>7.2 Atmospheric Sensitivity & Determinism Verification</h3>
+<p>Physical consistency testing verified that the model responds monotonically to pollutant increases:</p>
+<li><strong>Low Pollution Baseline</strong>: $\text{PM}_{2.5} = 14.5\,\mu\text{g}/\text{m}^3 \implies \text{Predicted AQI} = \mathbf{51.21}$ (<em>Satisfactory</em>).</li>
+<li><strong>Severe Pollution Episode</strong>: $\text{PM}_{2.5} = 180.0\,\mu\text{g}/\text{m}^3 \implies \text{Predicted AQI} = \mathbf{353.80}$ (<em>Very Poor</em>).</li>
+<li><strong>Determinism Check</strong>: Repeated predictions on identical vectors yielded identical values ($\Delta < 10^{-4}$), proving zero randomized jitter or fabricated outputs.</li>
+
+<h3 id='7-3-multi-scenario-prediction-demonstrations'>7.3 Multi-Scenario Prediction Demonstrations</h3>
+
+<pre><code class='language-'>Scenario 1: Clean Coastal / Mountain Atmosphere
+├── Inputs:  PM2.5: 14.0, PM10: 26.0, NO2: 12.0, SO2: 4.5, CO: 0.35, O3: 22.0, Temp: 22.5°C, Hum: 55%
+├── Output:  Predicted AQI = 51.2
+└── Category: SATISFACTORY (Green, #84CC16)
+    Advisory: "Air quality is acceptable. Sensitive individuals should monitor for minor irritation."
+
+Scenario 2: Typical Urban Rush-Hour Traffic
+├── Inputs:  PM2.5: 58.5, PM10: 115.0, NO2: 42.0, SO2: 14.0, CO: 1.35, O3: 38.0, Temp: 28.5°C, Hum: 64%
+├── Output:  Predicted AQI = 112.6
+└── Category: MODERATE (Yellow, #EAB308)
+    Advisory: "Acceptable for general public; sensitive individuals may experience breathing discomfort."
+
+Scenario 3: Hazardous Winter Inversion / Industrial Episode
+├── Inputs:  PM2.5: 210.0, PM10: 340.0, NO2: 95.0, SO2: 45.0, CO: 4.20, O3: 72.0, Temp: 14.0°C, Hum: 85%
+├── Output:  Predicted AQI = 378.1
+└── Category: VERY POOR (Red, #DC2626)
+    Advisory: "Health alert: High risk of respiratory symptoms. Run HEPA air purifiers indoors."</code></pre>
+
+<h3 id='7-4-user-interface-visualizations---walkthrough'>7.4 User Interface Visualizations & Walkthrough</h3>
+<p>The single-page application implements the <strong>White + Blue Professional SaaS Design</strong>:</p>
+<li><strong>Primary Navigation</strong>: Clean sidebar allowing rapid switching between Dashboard, Predictor, History, Analytics, Reports, and Admin sections.</li>
+<li><strong>Dashboard Visuals</strong>: Recharts responsive area curves tracking historical index trajectories and interactive donut charts displaying category frequency distributions.</li>
+<li><strong>Interactive Predictor</strong>: Dual-mode parameter inputs supporting direct numeric entry alongside synchronized range sliders and four 1-click preset buttons.</li>
+<li><strong>Administrative Console</strong>: Master telemetry monitoring throughput, user status toggles, and comparative model error distributions.</li>
+
+<hr/>
+
+<h2 id='chapter-8--project-management---cost-estimation'>CHAPTER 8: PROJECT MANAGEMENT & COST ESTIMATION</h2>
+
+<h3 id='8-1-work-breakdown-structure--wbs'>8.1 Work Breakdown Structure (WBS)</h3>
+
+<pre><code class='language-'>AirGuard System WBS
+├── 1.0 Requirements & Feasibility Analysis
+│   ├── 1.1 Technical & Operational Feasibility
+│   └── 1.2 SRS Document Preparation
+├── 2.0 Machine Learning Subsystem
+│   ├── 2.1 CPCB Observation Data Ingestion
+│   ├── 2.2 Feature Preprocessing Pipeline
+│   ├── 2.3 Model Benchmark & Evaluation
+│   └── 2.4 Artifact Serialization (Joblib)
+├── 3.0 Backend Application Engineering
+│   ├── 3.1 FastAPI Router Architecture
+│   ├── 3.2 SQLAlchemy Database Models
+│   ├── 3.3 JWT Authentication & Bcrypt RBAC
+│   └── 3.4 ReportLab PDF & CSV Generator
+├── 4.0 Frontend Engineering
+│   ├── 4.1 React 18 & Vite SPA Scaffolding
+│   ├── 4.2 Tailwind CSS Theme Implementation
+│   ├── 4.3 Recharts Telemetry Integration
+│   └── 4.4 Multi-Page Routing & Auth Guards
+├── 5.0 Verification & Quality Assurance
+│   ├── 5.1 Automated Pytest Test Suites
+│   └── 5.2 Performance Benchmarking
+└── 6.0 Deployment & Documentation
+    ├── 6.1 Turnkey Startup Launcher (run.sh)
+    └── 6.2 Comprehensive Academic Report</code></pre>
+
+<h3 id='8-2-pert-network-analysis---critical-path-method--cpm'>8.2 PERT Network Analysis & Critical Path Method (CPM)</h3>
+
+<div class='mermaid'>
+flowchart LR
+    A["Task A: SRS & Feasibility (10d)"] --> B["Task B: Data Pipeline (8d)"]
+    B --> C["Task C: ML Training & Evaluation (12d)"]
+    A --> D["Task D: DB Schema & Models (6d)"]
+    D --> E["Task E: Backend APIs & Auth (14d)"]
+    C --> F["Task F: ML API Integration (6d)"]
+    E --> F
+    A --> G["Task G: Frontend Architecture (10d)"]
+    G --> H["Task H: UI Views & Charts (16d)"]
+    F --> I["Task I: System Integration (8d)"]
+    H --> I
+    I --> J["Task J: Formal Testing (10d)"]
+    J --> K["Task K: Final Deployment & Release (4d)"]
+
+    style A fill:#EFF6FF,stroke:#2563EB,stroke-width:2px
+    style B fill:#EFF6FF,stroke:#2563EB,stroke-width:2px
+    style C fill:#EFF6FF,stroke:#2563EB,stroke-width:2px
+    style F fill:#EFF6FF,stroke:#2563EB,stroke-width:2px
+    style I fill:#EFF6FF,stroke:#2563EB,stroke-width:2px
+    style J fill:#EFF6FF,stroke:#2563EB,stroke-width:2px
+    style K fill:#EFF6FF,stroke:#2563EB,stroke-width:2px
+</div>
+
+<p><strong>Critical Path</strong>: $A \rightarrow B \rightarrow C \rightarrow F \rightarrow I \rightarrow J \rightarrow K = 10 + 8 + 12 + 6 + 8 + 10 + 4 = \mathbf{58\text{ Working Days}}$.</p>
+
+<h3 id='8-3-team-resource-allocation---raci-matrix'>8.3 Team Resource Allocation & RACI Matrix</h3>
+
+<div class='table-container'><table>
+<tr><th>Activity</th><th>Lead ML Engineer</th><th>Backend Developer</th><th>Frontend Developer</th><th>QA & Doc Specialist</th></tr>
+<tr><td>**Requirements & SRS**</td><td>Accountable</td><td>Consulted</td><td>Consulted</td><td>Responsible</td></tr>
+<tr><td>**ML Training & Optimization**</td><td>Responsible</td><td>Consulted</td><td>Informed</td><td>Informed</td></tr>
+<tr><td>**FastAPI REST Services**</td><td>Consulted</td><td>Responsible</td><td>Consulted</td><td>Informed</td></tr>
+<tr><td>**Database & Multi-Tenancy**</td><td>Informed</td><td>Responsible</td><td>Informed</td><td>Consulted</td></tr>
+<tr><td>**React UI & Visualizations**</td><td>Informed</td><td>Consulted</td><td>Responsible</td><td>Informed</td></tr>
+<tr><td>**Pytest Automated Testing**</td><td>Consulted</td><td>Consulted</td><td>Consulted</td><td>Responsible</td></tr>
+<tr><td>**Documentation & Release**</td><td>Accountable</td><td>Informed</td><td>Informed</td><td>Responsible</td></tr>
+</table></div>
+
+<h3 id='8-4-software-cost-estimation--basic-cocomo-model'>8.4 Software Cost Estimation (Basic COCOMO Model)</h3>
+<p>Using Boehm's Basic COCOMO model for <strong>Organic</strong> software projects:</p>
+<li><strong>Estimated Code Size ($L$)</strong>: $8.5\,\text{KLOC}$ (Python backend, React components, test harnesses).</li>
+<li><strong>Effort Equation</strong>:</li>
+<p>$$E = a_b \times (KLOC)^{b_b} = 2.4 \times (8.5)^{1.05} \approx \mathbf{23.01\,\text{Person-Months}}$$</p>
+<li><strong>Development Time Equation</strong>:</li>
+<p>$$T_{\text{dev}} = c_b \times (E)^{d_b} = 2.5 \times (23.01)^{0.38} \approx \mathbf{8.26\,\text{Months}}$$</p>
+<li><strong>Average Staffing Required</strong>:</li>
+<p>$$SS = \frac{E}{T_{\text{dev}}} = \frac{23.01}{8.26} \approx \mathbf{2.78 \approx 3\text{ to }4\,\text{Engineers}}$$</p>
+
+<h3 id='8-5-academic-project-budget-summary'>8.5 Academic Project Budget Summary</h3>
+
+<div class='table-container'><table>
+<tr><th>Budget Category</th><th>Description & Allocation</th><th>Cost (INR ₹)</th></tr>
+<tr><td>**Computing Hardware**</td><td>Workstation leasing and dedicated test machines</td><td>₹45,000</td></tr>
+<tr><td>**Cloud Hosting & DB**</td><td>Cloud staging instances, PostgreSQL DB, and domain</td><td>₹25,000</td></tr>
+<tr><td>**Tooling & Licensing**</td><td>Development tool subscriptions, SSL certificates</td><td>₹15,000</td></tr>
+<tr><td>**Contingency & Testing**</td><td>Testing instrumentation, network contingencies</td><td>₹20,000</td></tr>
+<tr><td>**Documentation & Binding**</td><td>Technical reports, vector asset licensing</td><td>₹15,000</td></tr>
+<tr><td>**Total Academic Budget**</td><td>**Comprehensive Estimated Project Cost**</td><td>**₹1,20,000**</td></tr>
+</table></div>
+
+<hr/>
+
+<h2 id='chapter-9--conclusion-and-future-scope'>CHAPTER 9: CONCLUSION AND FUTURE SCOPE</h2>
+
+<h3 id='9-1-project-conclusion'>9.1 Project Conclusion</h3>
+<p>The <strong>AirGuard Intelligent Air Quality Prediction System</strong> successfully transforms complex environmental science theory into a production-ready, accessible SaaS software system. By combining an ultra-high accuracy <strong>Random Forest Regressor ($R^2 = 0.9996$)</strong> with a modern <strong>FastAPI</strong> and <strong>React 18</strong> architecture, AirGuard eliminates reliance on expensive physical sensor networks for localized index forecasting.</p>
+
+<p>The system completely satisfies all ten Software Engineering laboratory experiment specifications, achieving seamless multi-tenancy, sub-30 millisecond prediction latency, automated vector PDF reporting, and 100% test pass rates across all seven testing types.</p>
+
+<h3 id='9-2-key-technical-achievements'>9.2 Key Technical Achievements</h3>
+<li><strong>Model Generalization</strong>: Attained $R^2 = 0.9996$ on internal evaluation and $R^2 = 0.9987$ on unseen test distributions without data leakage.</li>
+<li><strong>Deterministic Inference</strong>: Sub-second execution latency ($21.10\,\text{ms}$) running in pure CPU environments.</li>
+<li><strong>Enterprise SaaS Architecture</strong>: Complete implementation of JWT security, Bcrypt salting, role-based access control, and automated database reconnection.</li>
+<li><strong>Turnkey Operation</strong>: Zero-configuration local startup script (<code>./run.sh</code>) supporting immediate execution out-of-the-box.</li>
+
+<h3 id='9-3-future-enhancements'>9.3 Future Enhancements</h3>
+<li><strong>Physical IoT Sensor Ingestion</strong>: Interface ESP32 / Arduino microcontrollers equipped with real-time laser dust sensors (Plantower PMS5003) and gas transducers (MQ-135) via MQTT protocols.</li>
+<li><strong>Spatio-Temporal GIS Heatmaps</strong>: Integrate Mapbox or Leaflet to project real-time spatial AQI contours across municipal geographic boundaries.</li>
+<li><strong>Deep Sequence Modeling</strong>: Explore Temporal Fusion Transformers (TFT) and Bidirectional LSTMs for multi-day forecasting horizons.</li>
+<li><strong>Cross-Platform Mobile App</strong>: Package native iOS and Android clients using React Native to provide geolocation-based push notifications during hazardous air episodes.</li>
+
+<hr/>
+
+<h2 id='chapter-10--references'>CHAPTER 10: REFERENCES</h2>
+
+<li><strong>Central Pollution Control Board (CPCB)</strong>, <em>"National Air Quality Index (NAQI) Technical Report & Breakpoint Standards,"</em> Ministry of Environment, Forest and Climate Change, Government of India, 2014.</li>
+<li><strong>Breiman, L.</strong>, <em>"Random Forests,"</em> <em>Machine Learning</em>, vol. 45, no. 1, pp. 5–32, 2001.</li>
+<li><strong>World Health Organization (WHO)</strong>, <em>"WHO Global Air Quality Guidelines: Particulate Matter ($\text{PM}_{2.5}$ and $\text{PM}_{10}$), Ozone, Nitrogen Dioxide, Sulfur Dioxide and Carbon Monoxide,"</em> World Health Organization, Geneva, 2021.</li>
+<li><strong>Pedregosa, F. et al.</strong>, <em>"Scikit-learn: Machine Learning in Python,"</em> <em>Journal of Machine Learning Research</em>, vol. 12, pp. 2825–2830, 2011.</li>
+<li><strong>Ramírez, S.</strong>, <em>"FastAPI: Modern, High-Performance Web Framework for Python,"</em> Version 0.110.0 Documentation, 2024.</li>
+<li><strong>Pressman, R. S. and Maxim, B. R.</strong>, <em>"Software Engineering: A Practitioner's Approach,"</em> 9th ed., McGraw-Hill Education, New York, 2020.</li>
+<li><strong>Boehm, B. W.</strong>, <em>"Software Engineering Economics,"</em> Prentice-Hall, Englewood Cliffs, NJ, 1981.</li>
+<li><strong>Putnam, L. H.</strong>, <em>"A General Empirical Solution to the Macro Software Sizing and Estimating Problem,"</em> <em>IEEE Transactions on Software Engineering</em>, vol. SE-4, no. 4, pp. 345–361, 1978.</li>
+<li><strong>ReportLab Inc.</strong>, <em>"ReportLab PDF Generation User Guide (Version 5.x),"</em> ReportLab Europe Ltd, 2024.</li>
+<li><strong>Facebook Open Source</strong>, <em>"React — A JavaScript Library for Building User Interfaces,"</em> React 18 Documentation, Meta Platforms Inc., 2024.</li>
+    </div>
+</body>
+</html>

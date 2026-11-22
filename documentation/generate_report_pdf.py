@@ -1,8 +1,12 @@
 #!/usr/bin/env python3
 """
-AirGuard — Comprehensive Software Project Report PDF Generator
+AirGuard — Comprehensive Software Project Report PDF Generator (Pure Academic Typography)
 Produces a university-level, publication-grade academic project report PDF.
-Uses ReportLab with custom NumberedCanvas, professional styling, and structured tables.
+Eliminates all raw monospace ASCII code blocks and replaces them with:
+- Publication-grade structured tables and visual process cards
+- Formal academic specification matrices (Architecture, DFD, Use Case, Sequence, ERD, WBS, PERT)
+- Comprehensive multi-paragraph academic prose and technical explanations
+- Dynamic NumberedCanvas with running headers and footers
 """
 
 import os
@@ -21,7 +25,6 @@ from reportlab.platypus import (
     PageBreak,
     KeepTogether,
     HRFlowable,
-    Preformatted,
 )
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.enums import TA_CENTER, TA_JUSTIFY, TA_LEFT, TA_RIGHT
@@ -39,6 +42,7 @@ BORDER_DARK = colors.HexColor("#94A3B8") # Slate 400
 SUCCESS = colors.HexColor("#16A34A")     # Emerald Green
 WARNING = colors.HexColor("#EAB308")     # Amber Yellow
 DANGER = colors.HexColor("#DC2626")      # Crimson Red
+PURPLE_PRIMARY = colors.HexColor("#4338CA") # Indigo
 
 PAGE_WIDTH, PAGE_HEIGHT = A4
 MARGIN = 40  # 40pt margins (~0.55 in)
@@ -176,7 +180,7 @@ def get_styles():
         "SectionHeading",
         parent=styles["Normal"],
         fontName="Helvetica-Bold",
-        fontSize=12,
+        fontSize=11.5,
         leading=15,
         alignment=TA_LEFT,
         textColor=SECONDARY,
@@ -188,7 +192,7 @@ def get_styles():
         "SubSectionHeading",
         parent=styles["Normal"],
         fontName="Helvetica-Bold",
-        fontSize=10,
+        fontSize=9.8,
         leading=13,
         alignment=TA_LEFT,
         textColor=TEXT_DARK,
@@ -202,8 +206,8 @@ def get_styles():
         "ReportBody",
         parent=styles["Normal"],
         fontName="Helvetica",
-        fontSize=9.2,
-        leading=13.2,
+        fontSize=9.0,
+        leading=13.0,
         alignment=TA_JUSTIFY,
         textColor=TEXT_DARK,
         spaceAfter=5
@@ -219,8 +223,8 @@ def get_styles():
         "TableHeader",
         parent=styles["Normal"],
         fontName="Helvetica-Bold",
-        fontSize=8.2,
-        leading=11,
+        fontSize=8.0,
+        leading=10.5,
         alignment=TA_CENTER,
         textColor=colors.white
     ))
@@ -228,8 +232,8 @@ def get_styles():
         "TableCell",
         parent=styles["Normal"],
         fontName="Helvetica",
-        fontSize=7.8,
-        leading=10.5,
+        fontSize=7.6,
+        leading=10.2,
         alignment=TA_LEFT,
         textColor=TEXT_DARK
     ))
@@ -283,21 +287,10 @@ def get_styles():
         spaceAfter=3
     ))
 
-    # Code / Diagram / Monospace Style
-    styles.add(ParagraphStyle(
-        "CodeText",
-        parent=styles["Normal"],
-        fontName="Courier",
-        fontSize=6.9,
-        leading=8.7,
-        alignment=TA_LEFT,
-        textColor=TEXT_DARK
-    ))
-
     return styles
 
 
-def make_callout(title, text_lines, styles, width=USABLE_WIDTH):
+def make_callout(title, text_lines, styles, width=USABLE_WIDTH, bar_color=PRIMARY, bg_color=BG_CALLOUT):
     """Generates an academic shaded callout card with a left primary bar."""
     flowables = []
     if title:
@@ -308,9 +301,9 @@ def make_callout(title, text_lines, styles, width=USABLE_WIDTH):
 
     box_table = Table([[flowables]], colWidths=[width])
     box_table.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (-1, -1), BG_CALLOUT),
+        ('BACKGROUND', (0, 0), (-1, -1), bg_color),
         ('BOX', (0, 0), (-1, -1), 0.5, BORDER_COLOR),
-        ('LINEBEFORE', (0, 0), (0, -1), 3.5, PRIMARY),
+        ('LINEBEFORE', (0, 0), (0, -1), 3.5, bar_color),
         ('TOPPADDING', (0, 0), (-1, -1), 5),
         ('BOTTOMPADDING', (0, 0), (-1, -1), 5),
         ('LEFTPADDING', (0, 0), (-1, -1), 8),
@@ -319,27 +312,7 @@ def make_callout(title, text_lines, styles, width=USABLE_WIDTH):
     return box_table
 
 
-def make_diagram_box(title, ascii_diagram, styles, width=USABLE_WIDTH):
-    """Renders a structured diagram / monospace box with border."""
-    content = [
-        Paragraph(f"<b>{title}</b>", styles["CalloutTitle"]),
-        Spacer(1, 3),
-        Preformatted(ascii_diagram.strip(), styles["CodeText"])
-    ]
-    box = Table([[content]], colWidths=[width])
-    box.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (-1, -1), BG_LIGHT),
-        ('BOX', (0, 0), (-1, -1), 0.6, BORDER_DARK),
-        ('LINEBEFORE', (0, 0), (0, -1), 3.0, SECONDARY),
-        ('TOPPADDING', (0, 0), (-1, -1), 5),
-        ('BOTTOMPADDING', (0, 0), (-1, -1), 5),
-        ('LEFTPADDING', (0, 0), (-1, -1), 7),
-        ('RIGHTPADDING', (0, 0), (-1, -1), 7),
-    ]))
-    return box
-
-
-def make_table(headers, rows, col_widths, styles, alignments=None):
+def make_table(headers, rows, col_widths, styles, alignments=None, header_bg=PRIMARY):
     """Generates a professional data table with explicit widths and auto-wrapped cells."""
     table_data = []
 
@@ -358,12 +331,12 @@ def make_table(headers, rows, col_widths, styles, alignments=None):
 
     t = Table(table_data, colWidths=col_widths, repeatRows=1)
     t_style = [
-        ('BACKGROUND', (0, 0), (-1, 0), PRIMARY),
+        ('BACKGROUND', (0, 0), (-1, 0), header_bg),
         ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
         ('ALIGN', (0, 0), (-1, 0), 'CENTER'),
         ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
-        ('TOPPADDING', (0, 0), (-1, -1), 3.5),
-        ('BOTTOMPADDING', (0, 0), (-1, -1), 3.5),
+        ('TOPPADDING', (0, 0), (-1, -1), 3.2),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 3.2),
         ('LEFTPADDING', (0, 0), (-1, -1), 4.5),
         ('RIGHTPADDING', (0, 0), (-1, -1), 4.5),
         ('GRID', (0, 0), (-1, -1), 0.5, BORDER_COLOR),
@@ -615,9 +588,10 @@ def build_pdf(output_path):
         ("    3.2 Non-Functional Requirements • 3.3 Hardware & Software Environment", "10"),
         ("    3.4 User Characteristics & Role Matrix • 3.5 Constraints & Dependencies", "10"),
         ("Chapter 4: System Analysis and Design", "11"),
-        ("    4.1 Multi-Tier SaaS Architecture • 4.2 Data Flow Modeling (DFD L0 & L1)", "11"),
-        ("    4.3 Use Case Modeling • 4.4 Real-Time Prediction Sequence Modeling", "13"),
-        ("    4.5 Entity-Relationship (ER) Schema • 4.6 Subsystem Descriptions", "14"),
+        ("    4.1 Multi-Tier SaaS Architecture Specification • 4.2 Data Flow Modeling", "11"),
+        ("    4.3 Functional Process Decomposition (DFD L1) • 4.4 Subsystem Descriptions", "12"),
+        ("    4.5 Formal Use Case Specifications • 4.6 Prediction Execution Sequence", "13"),
+        ("    4.7 Relational Schema Data Dictionary • 4.8 Dual-Engine Failover Resilience", "14"),
         ("Chapter 5: Methodology and Implementation", "15"),
         ("    5.1 Engineering Lifecycle • 5.2 Atmospheric Dataset & Preprocessing", "15"),
         ("    5.3 ML Formulations • 5.4 Empirical Benchmarks (MLR, DT, RF, SVR)", "15"),
@@ -629,8 +603,8 @@ def build_pdf(output_path):
         ("    7.1 Quantitative Benchmark Analysis • 7.2 Atmospheric Sensitivity & Monotonicity", "19"),
         ("    7.3 Multi-Scenario Demonstrations • 7.4 UI Architecture & Latency Profiling", "19"),
         ("Chapter 8: Project Management & Cost Estimation", "20"),
-        ("    8.1 Work Breakdown Structure (WBS) • 8.2 PERT & Critical Path Method", "20"),
-        ("    8.3 RACI Matrix • 8.4 Basic COCOMO Model Sizing & Effort Estimation", "21"),
+        ("    8.1 Work Breakdown Structure Matrix • 8.2 PERT Activity Schedule & CPM", "20"),
+        ("    8.3 RACI Resource Matrix • 8.4 Basic COCOMO Model Sizing & Effort Estimation", "21"),
         ("    8.5 Putnam-Norden Rayleigh Staffing Model • 8.6 Academic Budget", "22"),
         ("Chapter 9: Conclusion and Future Scope", "23"),
         ("    9.1 Conclusion • 9.2 Key Achievements • 9.3 System Limitations", "23"),
@@ -684,9 +658,9 @@ def build_pdf(output_path):
         "The Air Quality Index (AQI) was established by environmental protection agencies—including the Central Pollution Control Board (CPCB) "
         "in India and the United States EPA—to translate complex multi-pollutant concentrations into a single numerical score and standardized "
         "health risk category. Continuous air quality tracking allows:<br/>"
-        "• <b>Vulnerable Populations</b> (children, the elderly, asthmatics) to minimize outdoor exposure during severe pollution peaks.<br/>"
-        "• <b>Municipal Authorities</b> to enact targeted emergency mitigations such as construction moratoria, industrial curtailments, and traffic zoning.<br/>"
-        "• <b>Healthcare Institutions</b> to anticipate surges in emergency respiratory admissions and allocate clinical resources effectively."
+        "• <b>Vulnerable Populations:</b> Children, the elderly, and asthmatics can minimize outdoor exposure during severe pollution peaks.<br/>"
+        "• <b>Municipal Authorities:</b> Regulators can enact targeted emergency mitigations such as construction moratoria, industrial curtailments, and traffic odd-even schemes.<br/>"
+        "• <b>Healthcare Institutions:</b> Clinical administrators can anticipate surges in emergency respiratory admissions and allocate medical oxygen and ventilators effectively."
     )
     story.append(Paragraph(intro_p2, styles["ReportBody"]))
 
@@ -871,82 +845,73 @@ def build_pdf(output_path):
 
     story.append(Paragraph("4.1 Multi-Tier SaaS System Architecture", styles["SectionHeading"]))
     story.append(Paragraph(
-        "AirGuard is built on a modern decoupled three-tier Software-as-a-Service (SaaS) architecture, ensuring clean separation of concerns, "
-        "independent scalability, and robust security boundaries across presentation, business logic, machine learning, and data persistence layers.",
+        "AirGuard adopts a decoupled four-tier Software-as-a-Service (SaaS) architectural design. Each tier isolates specific architectural "
+        "responsibilities, communicating via well-defined RESTful protocols and asynchronous interfaces to ensure horizontal scalability, "
+        "fault tolerance, and secure data isolation.",
         styles["ReportBody"]
     ))
 
-    arch_diagram = """
-+----------------------------------------------------------------------------------------------------+
-|                               PRESENTATION TIER (Client Browser)                                    |
-|   React 18 SPA (Vite + Tailwind CSS)  |  React Router v6 Navigation  |  Recharts Visualizations    |
-|   Auth Context (JWT Storage)          |  Axios REST Client          |  Dynamic Parameter Sliders   |
-+----------------------------------------------------------------------------------------------------+
-                                                 |  HTTPS / JSON + JWT Bearer
-                                                 v
-+----------------------------------------------------------------------------------------------------+
-|                            APPLICATION LOGIC TIER (FastAPI Server :8000)                           |
-|   Uvicorn ASGI Gateway  --->  JWT Auth & RBAC Guard  --->  Pydantic v2 Boundary Validation        |
-|   Routers: /auth  |  /users  |  /predict  |  /history  |  /analytics  |  /reports  |  /admin        |
-|   Services: Prediction Engine  |  CPCB Classifier  |  Advisory Service  |  ReportLab PDF Engine    |
-+----------------------------------------------------------------------------------------------------+
-             |                                                       |
-             v (Model Inference)                                     v (Data Persistence)
-+--------------------------------------------+       +-----------------------------------------------+
-|      MACHINE LEARNING INTELLIGENCE TIER     |       |            DATA PERSISTENCE TIER              |
-|  - StandardScaler Feature Scaler           |       |  - SQLAlchemy 2.0 ORM Engine                  |
-|  - Random Forest Regressor (100 Trees)     |       |  - PostgreSQL Database (Production Primary)    |
-|  - Serialized Artifacts (.joblib)          |       |  - SQLite Database (Automatic Failover Store)  |
-+--------------------------------------------+       +-----------------------------------------------+
-"""
-    story.append(make_diagram_box("Figure 4.1: Decoupled Multi-Tier SaaS Architecture Diagram", arch_diagram, styles))
+    arch_headers = ["Tier Layer", "Core Technologies", "Architectural Responsibilities & Protocols"]
+    arch_rows = [
+        ["Presentation Tier<br/>(Client Browser)",
+         "React 18, Vite 5.1,<br/>Tailwind CSS, Recharts",
+         "Single-Page Application (SPA) rendering responsive data visualizers, dual-mode range sliders, and client auth state. Communicates via HTTPS / JSON with JWT Bearer tokens."],
+        ["Application Logic Tier<br/>(FastAPI Server :8000)",
+         "FastAPI 0.110, Uvicorn,<br/>Pydantic v2, Python 3.11",
+         "Asynchronous ASGI gateway managing JWT identity verification, RBAC endpoint guards, boundary schema validation, and routing across 7 modular sub-routers."],
+        ["Machine Learning Tier<br/>(Predictive Engine)",
+         "Scikit-learn 1.4,<br/>Joblib, NumPy, Pandas",
+         "StandardScaler feature transformation, 100-tree Random Forest parallel inference, dominant pollutant attribution, and CPCB sub-index piecewise categorization."],
+        ["Data Persistence Tier<br/>(Storage Engine)",
+         "SQLAlchemy 2.0 ORM,<br/>PostgreSQL & SQLite",
+         "Relational entity management with automated primary-to-fallback failover mechanism guaranteeing continuous availability during network disruptions."]
+    ]
+    story.append(make_table(arch_headers, arch_rows, [115, 115, 285], styles))
     story.append(Spacer(1, 6))
 
-    story.append(Paragraph("4.2 Data Flow Modeling", styles["SectionHeading"]))
-    story.append(Paragraph("<b>4.2.1 Level-0 DFD (Context Diagram)</b>", styles["SubSectionHeading"]))
+    story.append(Paragraph("4.2 Data Flow Modeling (Level-0 Context Diagram)", styles["SectionHeading"]))
+    story.append(Paragraph(
+        "The Level-0 Context Diagram defines the external operational boundaries of AirGuard, illustrating all primary data streams between "
+        "external actors (Standard Users, Administrators) and the centralized SaaS intelligence core.",
+        styles["ReportBody"]
+    ))
 
-    dfd0 = """
-                      [Registration / Login Credentials]
-           +-------------------------------------------------------+
-           |                                                       |
-           v                                                       |
-+---------------------+     [Environmental Parameters (8)]     +-----------------------------------+
-|                     | -------------------------------------> |                                   |
-|    Standard User    |                                        |    AIRGUARD ENVIRONMENTAL         |
-|                     | <------------------------------------- |    INTELLIGENCE SAAS PLATFORM     |
-+---------------------+      [Predicted AQI, Category,         |                                   |
-                             Advisory, Trends, PDF/CSV Reports] +-----------------------------------+
-                                                                               ^
-+---------------------+      [Admin Credentials & Control Actions]             |
-|    System           | -------------------------------------------------------+
-|    Administrator    | <------------------------------------------------------+
-+---------------------+      [Platform Telemetry, Audit Feeds, Model Registry]
-"""
-    story.append(make_diagram_box("Figure 4.2: Data Flow Diagram (DFD) Level-0 — Context Diagram", dfd0, styles))
+    dfd0_headers = ["External Entity", "Direction", "Information Flow & Description", "System Action"]
+    dfd0_rows = [
+        ["Standard User", "Inbound", "Login credentials (Email, Bcrypt password)", "Validates credentials and returns 24-hr signed JWT token"],
+        ["Standard User", "Inbound", "8 atmospheric values (PM2.5, PM10, gases, temp, hum)", "Validates bounds, runs ML inference, persists record to DB"],
+        ["Standard User", "Outbound", "Predicted AQI, CPCB category badge, medical advisory", "Real-time display on React dashboard with animated gauge"],
+        ["Standard User", "Outbound", "Vector PDF compliance report & RFC 4180 CSV", "Dynamic on-the-fly document streaming via ReportLab engine"],
+        ["Administrator", "Inbound", "Retraining trigger and custom dataset selections", "Spawns background ML retraining worker with new metrics logging"],
+        ["Administrator", "Outbound", "Platform telemetry, active models, user directory", "Administrative oversight console with throughput metrics"]
+    ]
+    story.append(make_table(dfd0_headers, dfd0_rows, [85, 55, 235, 140], styles,
+                            alignments=['left', 'center', 'left', 'left']))
 
     story.append(PageBreak())
 
-    # --- CHAPTER 4 CONTINUED: DFD L1 (Page 12) ---
-    story.append(Paragraph("<b>4.2.2 Level-1 DFD (Functional Process Decomposition)</b>", styles["SubSectionHeading"]))
-    dfd1 = """
-[User Credentials] ----> (1.0 Authenticate) <---> [(D1) Users Store]
-                               |
-                        [JWT Bearer Token]
-                               |
-[8 Parameters] --------> (2.0 Validate Input) ----> (3.0 Scale Vector)
-                                                           |
-                                                  [(D3) ML Models Registry]
-                                                           |
-                                                           v
-[Predicted Results] <--- (5.0 CPCB Classify) <----- (4.0 ML Inference)
-         |                     |
-         v                     v
-[PDF/CSV Export] <------ (7.0 Reporting) <------- (6.0 Persist Record) ---> [(D2) Predictions Store]
-"""
-    story.append(make_diagram_box("Figure 4.3: Data Flow Diagram (DFD) Level-1 — Functional Process Decomposition", dfd1, styles))
+    # --- CHAPTER 4 CONTINUED: DFD L1 & SUBSYSTEMS (Page 12) ---
+    story.append(Paragraph("4.3 Level-1 DFD (Functional Process Decomposition)", styles["SectionHeading"]))
+    story.append(Paragraph(
+        "The Level-1 Data Flow Diagram decomposes the internal operations of AirGuard into seven discrete functional processes and their "
+        "associated relational data stores (Users Store D1, Predictions Store D2, Model Registry D3).",
+        styles["ReportBody"]
+    ))
+
+    dfd1_headers = ["Process ID & Name", "Input Ingestion", "Target Data Store", "Output Generated"]
+    dfd1_rows = [
+        ["1.0 Authenticate User", "Email, Password plaintext", "D1: Users Store", "Signed HMAC-SHA256 JWT Token"],
+        ["2.0 Validate Input Vectors", "8 Environmental Parameters", "Memory Pipeline", "Validated Pydantic Feature Object"],
+        ["3.0 Transform & Scale Features", "Validated Feature Object", "Memory Pipeline", "Zero-Mean Unit-Variance Scaled Tensor"],
+        ["4.0 Execute ML Inference", "Scaled Tensor Vector", "D3: Model Registry", "Continuous Numerical AQI Prediction"],
+        ["5.0 Classify CPCB Category", "Continuous AQI Value", "CPCB Standards Table", "6-Tier Category Token & Medical Advisory"],
+        ["6.0 Persist Prediction Record", "Inputs, AQI, Category, User ID", "D2: Predictions Store", "Atomic Relational Database Insertion"],
+        ["7.0 Compile Audit Reports", "Historical Prediction Stream", "ReportLab Engine", "Vector PDF Stream & RFC 4180 CSV Lines"]
+    ]
+    story.append(make_table(dfd1_headers, dfd1_rows, [125, 120, 110, 160], styles))
     story.append(Spacer(1, 8))
 
-    story.append(Paragraph("4.3 Architectural Subsystems & Component Responsibilities", styles["SectionHeading"]))
+    story.append(Paragraph("4.4 Architectural Subsystems & Component Responsibilities", styles["SectionHeading"]))
     subsys_text = (
         "• <b>Authentication Subsystem (auth_service.py):</b> Enforces PBKDF2/Bcrypt password hashing and decodes signed HMAC-SHA256 JWT tokens. "
         "Injects role claims into downstream endpoint dependencies.<br/>"
@@ -963,91 +928,76 @@ def build_pdf(output_path):
     story.append(PageBreak())
 
     # --- CHAPTER 4 CONTINUED: USE CASE & SEQUENCE (Page 13) ---
-    story.append(Paragraph("4.4 Use Case Modeling", styles["SectionHeading"]))
-    uc_text = (
-        "The Use Case model defines the functional boundaries of AirGuard, categorizing system interactions across two distinct actors: "
-        "<b>Standard User</b> and <b>Administrator</b> (who inherits all standard user privileges):"
-    )
-    story.append(Paragraph(uc_text, styles["ReportBody"]))
+    story.append(Paragraph("4.5 Formal Use Case Specifications", styles["SectionHeading"]))
+    story.append(Paragraph(
+        "The Use Case model formally details interactions between system actors (Standard User, Administrator) and functional platform boundaries.",
+        styles["ReportBody"]
+    ))
 
-    uc_diagram = """
-                       +------------------------------------------------------------------+
-                       |                     AIRGUARD SYSTEM BOUNDARY                     |
-                       |                                                                  |
-                       |   (UC01: Register Account)         (UC07: Export Historical CSV) |
-    +---------------+  |   (UC02: Login & JWT Auth)         (UC08: View Trend Analytics)  |
-    |               |--+-> (UC03: Input 8 Parameters)                                     |
-    | Standard User |  |   (UC04: View Predicted AQI)                                     |
-    |               |--+-> (UC05: View History Records)                                   |
-    +---------------+  |   (UC06: Download PDF Report)                                    |
-            ^          |                                                                  |
-            | (Extends)|   (UC09: Monitor Telemetry)        (UC11: Inspect CPCB Datasets) |
-    +---------------+  |   (UC10: Manage User Directory)    (UC12: Trigger Model Retrain) |
-    | Administrator |--+------------------------------------------------------------------+
-    +---------------+
-"""
-    story.append(make_diagram_box("Figure 4.4: Use Case Model Diagram", uc_diagram, styles))
-    story.append(Spacer(1, 8))
+    uc_headers = ["UC ID", "Use Case Title", "Primary Actor", "Precondition", "Main Success Scenario", "Postcondition"]
+    uc_rows = [
+        ["UC01", "Register Account", "Public Visitor", "Valid email address", "Submit name, email, role, password; system salts & hashes via Bcrypt", "User account persisted in database"],
+        ["UC02", "Authenticate", "Public Visitor", "Registered credentials", "Submit login form; system verifies hash and returns signed 24-hr JWT", "Client stores token in Auth Context"],
+        ["UC03", "Submit Prediction", "Standard User", "JWT authenticated", "Enter 8 parameters; system validates, scales, predicts, and categorizes", "AQI displayed & persisted in history"],
+        ["UC04", "Inspect History", "Standard User", "JWT authenticated", "Navigate to History; system fetches user's paginated prediction logs", "Interactive historical table rendered"],
+        ["UC05", "Export Vector PDF", "Standard User", "History records exist", "Click Download PDF; ReportLab compiles and streams binary report", "Printable vector PDF downloaded"],
+        ["UC06", "Export CSV Audit", "Standard User", "History records exist", "Click Export CSV; system serializes rows into RFC 4180 format", "Spreadsheet CSV downloaded"],
+        ["UC07", "System Telemetry", "Administrator", "Role = 'admin'", "Open Admin Console; server aggregates throughput, models, user directory", "Real-time metrics rendered on UI"],
+        ["UC08", "Trigger Retraining", "Administrator", "Role = 'admin'", "Click Retrain Model; system triggers async joblib training on CPCB dataset", "New model artifact logged & deployed"]
+    ]
+    story.append(make_table(uc_headers, uc_rows, [38, 90, 75, 80, 140, 92], styles))
+    story.append(Spacer(1, 6))
 
-    story.append(Paragraph("4.5 Sequence Modeling: Prediction Execution Lifecycle", styles["SectionHeading"]))
-    seq_diagram = """
-[Client Browser]        [FastAPI Router]        [Auth Service]        [ML Engine]        [Database Layer]
-       |                       |                       |                   |                    |
-       |--- 1. POST /predict ->|                       |                   |                    |
-       |    (8 params + JWT)   |--- 2. get_user(token)->|                  |                    |
-       |                       |<-- 3. User Validated -|                   |                    |
-       |                       |                                           |                    |
-       |                       |--- 4. predict_aqi(params) --------------->|                    |
-       |                       |                                           |--- 5. Scale Vector |
-       |                       |                                           |--- 6. RF.predict() |
-       |                       |                                           |--- 7. Classify CPCB|
-       |                       |                                           |                    |
-       |                       |                                           |--- 8. INSERT Record---->|
-       |                       |                                           |<-- 9. Persisted OK -----|
-       |                       |<-- 10. Return PredictionResult -----------|                    |
-       |<-- 11. HTTP 200 OK ---|                                           |                    |
-       |    (AQI, Category,    |                                           |                    |
-       |     Advisories JSON)  |                                           |                    |
-"""
-    story.append(make_diagram_box("Figure 4.5: Sequence Diagram for Real-Time AQI Prediction", seq_diagram, styles))
+    story.append(Paragraph("4.6 Sequence Modeling: Real-Time Prediction Execution", styles["SectionHeading"]))
+    seq_headers = ["Step", "Participating Entity", "Interaction / Payload", "Internal Processing Logic", "Return Value"]
+    seq_rows = [
+        ["1", "User Browser → React UI", "Form submission (8 parameters)", "Client-side numerical range and non-negative check", "Parameters validated locally"],
+        ["2", "React UI → FastAPI Router", "POST /api/v1/predict/ + Bearer JWT", "FastAPI ASGI routes request through Uvicorn gateway", "HTTP Request received"],
+        ["3", "FastAPI → Auth Service", "get_current_user(token)", "Decodes HMAC-SHA256 signature and validates expiration", "Authenticated User ID: 6"],
+        ["4", "FastAPI → ML Pipeline", "predict_aqi(params, db, user)", "Pydantic validates types; StandardScaler normalizes vector", "Normalized feature tensor"],
+        ["5", "ML Pipeline → RF Model", "model.predict(scaled_tensor)", "100-tree parallel ensemble traversal and voting", "Continuous AQI = 112.6"],
+        ["6", "ML Pipeline → Classifier", "classify_aqi(112.6)", "CPCB piecewise breakpoint evaluation and advisory lookup", "Moderate (#EAB308) + Advisory"],
+        ["7", "ML Pipeline → SQLAlchemy", "INSERT into environmental_data & predictions", "Atomic transaction committed to PostgreSQL / SQLite", "Persisted Record ID: 43"],
+        ["8", "FastAPI → React UI", "HTTP 200 OK (PredictionResponse JSON)", "Serializes AQI, category, dominant pollutant, advisory", "JSON response delivered in 21 ms"],
+        ["9", "React UI → User Browser", "Render animated results", "Animates circular gauge, displays badge and medical advice", "Visual update complete"]
+    ]
+    story.append(make_table(seq_headers, seq_rows, [28, 115, 125, 145, 102], styles,
+                            alignments=['center', 'left', 'left', 'left', 'left']))
 
     story.append(PageBreak())
 
     # --- CHAPTER 4 CONTINUED: ER SCHEMA (Page 14) ---
-    story.append(Paragraph("4.6 Entity-Relationship (ER) Schema & Data Dictionary", styles["SectionHeading"]))
-    erd_diagram = """
-+-----------------------+              +-------------------------------+
-|         USERS         |              |       ENVIRONMENTAL_DATA      |
-+-----------------------+              +-------------------------------+
-| PK  id: INTEGER       | 1          * | PK  id: INTEGER               |
-| UK  email: VARCHAR    |<------------+| FK  user_id: INTEGER          |
-|     name: VARCHAR     |  (records)   |     pm25, pm10: FLOAT         |
-|     password: VARCHAR |              |     no2, so2, co, o3: FLOAT   |
-|     role: VARCHAR     |              |     temp, hum: FLOAT          |
-|     is_active: BOOL   |              |     recorded_at: DATETIME     |
-+-----------------------+              +-------------------------------+
-            | 1                                        | 1
-            |                                          |
-            | (owns)                                   | (evaluated_by)
-            v *                                        v 1
-+--------------------------------------------------------------+
-|                         PREDICTIONS                          |
-+--------------------------------------------------------------+
-| PK  id: INTEGER                                              |
-| FK  user_id: INTEGER  (References USERS.id)                  |
-| FK  environmental_data_id: INTEGER (References ENV_DATA.id)  |
-|     predicted_aqi: FLOAT                                     |
-|     category: VARCHAR (Good, Satisfactory, Moderate, etc.)   |
-|     dominant_pollutant: VARCHAR (PM2.5, PM10, etc.)          |
-|     health_recommendation: TEXT                              |
-|     model_used: VARCHAR                                      |
-|     created_at: DATETIME                                     |
-+--------------------------------------------------------------+
-"""
-    story.append(make_diagram_box("Figure 4.6: Entity-Relationship (ER) Schema Diagram", erd_diagram, styles))
-    story.append(Spacer(1, 8))
+    story.append(Paragraph("4.7 Relational Schema Data Dictionary", styles["SectionHeading"]))
+    story.append(Paragraph(
+        "The relational database schema is managed via SQLAlchemy 2.0 ORM, enforcing strict referential integrity, foreign key cascading, "
+        "and multi-tenant user isolation across all entities.",
+        styles["ReportBody"]
+    ))
 
-    story.append(Paragraph("4.7 Database Resilience & Dual-Engine Failover", styles["SectionHeading"]))
+    erd_headers = ["Table Name", "Column Name", "SQL Data Type", "Key Constraints", "Description & Invariants"]
+    erd_rows = [
+        ["users", "id", "INTEGER", "PRIMARY KEY", "Auto-incrementing unique user identifier"],
+        ["users", "email", "VARCHAR(255)", "UNIQUE, NOT NULL", "Unique login email address with format validation"],
+        ["users", "hashed_password", "VARCHAR(255)", "NOT NULL", "Bcrypt cryptographic salt and hash (≥ 12 rounds)"],
+        ["users", "role", "VARCHAR(50)", "NOT NULL", "Role-based access token ('user' or 'admin')"],
+        ["users", "is_active", "BOOLEAN", "DEFAULT TRUE", "Account active status toggle"],
+        ["environmental_data", "id", "INTEGER", "PRIMARY KEY", "Auto-incrementing environmental record ID"],
+        ["environmental_data", "user_id", "INTEGER", "FOREIGN KEY (users.id)", "Owner reference for multi-tenant isolation"],
+        ["environmental_data", "pm25, pm10", "FLOAT", "NOT NULL", "Particulate matter concentrations (µg/m³)"],
+        ["environmental_data", "no2, so2, co, o3", "FLOAT", "NOT NULL", "Gaseous pollutant concentrations (µg/m³ & mg/m³)"],
+        ["environmental_data", "temp, hum", "FLOAT", "NOT NULL", "Meteorological ambient temperature (°C) & humidity (%)"],
+        ["predictions", "id", "INTEGER", "PRIMARY KEY", "Auto-incrementing prediction record ID"],
+        ["predictions", "user_id", "INTEGER", "FOREIGN KEY (users.id)", "Multi-tenant owner reference"],
+        ["predictions", "environmental_data_id", "INTEGER", "FOREIGN KEY (env.id)", "1-to-1 association with input environmental record"],
+        ["predictions", "predicted_aqi", "FLOAT", "NOT NULL", "Continuous predicted AQI value (0.0 to 500.0+)"],
+        ["predictions", "category", "VARCHAR(50)", "NOT NULL", "Official CPCB tier (Good, Satisfactory, Moderate, etc.)"],
+        ["predictions", "dominant_pollutant", "VARCHAR(50)", "NOT NULL", "Primary driving chemical effluent"],
+        ["predictions", "health_recommendation", "TEXT", "NOT NULL", "Actionable medical advisory for the public"]
+    ]
+    story.append(make_table(erd_headers, erd_rows, [85, 95, 80, 105, 150], styles))
+    story.append(Spacer(1, 6))
+
+    story.append(Paragraph("4.8 Database Resilience & Dual-Engine Failover", styles["SectionHeading"]))
     db_failover = (
         "AirGuard implements an enterprise connection manager in <code>backend/app/db/session.py</code>. "
         "During standard operations, all queries route through a high-performance PostgreSQL connection pool. "
@@ -1231,23 +1181,31 @@ def build_pdf(output_path):
     ))
 
     story.append(Paragraph("7.3 Multi-Scenario Prediction Demonstrations", styles["SectionHeading"]))
-    scenarios = """
-Scenario 1: Clean Coastal / Mountain Atmosphere
-- Inputs:  PM2.5: 14.0, PM10: 26.0, NO2: 12.0, SO2: 4.5, CO: 0.35, O3: 22.0, Temp: 22.5°C, Hum: 55%
-- Output:  Predicted AQI = 51.2 | Category: SATISFACTORY (Green, #84CC16)
-- Advisory: "Air quality is acceptable. Sensitive individuals should monitor for minor irritation."
-
-Scenario 2: Typical Urban Rush-Hour Traffic
-- Inputs:  PM2.5: 58.5, PM10: 115.0, NO2: 42.0, SO2: 14.0, CO: 1.35, O3: 38.0, Temp: 28.5°C, Hum: 64%
-- Output:  Predicted AQI = 112.6 | Category: MODERATE (Yellow, #EAB308)
-- Advisory: "Acceptable for general public; sensitive individuals may experience breathing discomfort."
-
-Scenario 3: Hazardous Winter Inversion / Industrial Episode
-- Inputs:  PM2.5: 210.0, PM10: 340.0, NO2: 95.0, SO2: 45.0, CO: 4.20, O3: 72.0, Temp: 14.0°C, Hum: 85%
-- Output:  Predicted AQI = 378.1 | Category: VERY POOR (Red, #DC2626)
-- Advisory: "Health alert: High risk of respiratory symptoms. Run HEPA air purifiers indoors."
-"""
-    story.append(make_diagram_box("Representative Prediction Demonstrations Across Environmental Regimes", scenarios, styles))
+    scen_headers = ["Scenario Name & Environment", "Input Parameters Vector", "Predicted AQI", "CPCB Category", "Official Medical Health Advisory"]
+    scen_rows = [
+        ["<b>Scenario 1:</b><br/>Clean Coastal / Mountain",
+         "PM2.5: 14.0, PM10: 26.0<br/>NO2: 12.0, SO2: 4.5<br/>CO: 0.35, O3: 22.0<br/>Temp: 22.5°C, Hum: 55%",
+         "<b>51.2</b>",
+         "<font color='#16A34A'><b>SATISFACTORY</b></font><br/>(Green, #84CC16)",
+         "Air quality is acceptable. Minor breathing discomfort may be experienced by unusually sensitive individuals."],
+        ["<b>Scenario 2:</b><br/>Urban Rush-Hour Traffic",
+         "PM2.5: 58.5, PM10: 115.0<br/>NO2: 42.0, SO2: 14.0<br/>CO: 1.35, O3: 38.0<br/>Temp: 28.5°C, Hum: 64%",
+         "<b>112.6</b>",
+         "<font color='#B45309'><b>MODERATE</b></font><br/>(Yellow, #EAB308)",
+         "May cause breathing discomfort to people with lung disease, asthma, and heart conditions upon prolonged exertion."],
+        ["<b>Scenario 3:</b><br/>Winter Inversion Episode",
+         "PM2.5: 210.0, PM10: 340.0<br/>NO2: 95.0, SO2: 45.0<br/>CO: 4.20, O3: 72.0<br/>Temp: 14.0°C, Hum: 85%",
+         "<b>378.1</b>",
+         "<font color='#DC2626'><b>VERY POOR</b></font><br/>(Red, #DC2626)",
+         "Health alert: High risk of respiratory illness on prolonged exposure. Avoid strenuous outdoor activity; run indoor HEPA filters."],
+        ["<b>Scenario 4:</b><br/>Severe Industrial Episode",
+         "PM2.5: 380.0, PM10: 520.0<br/>NO2: 140.0, SO2: 85.0<br/>CO: 8.50, O3: 110.0<br/>Temp: 11.0°C, Hum: 92%",
+         "<b>456.8</b>",
+         "<font color='#7F1D1D'><b>SEVERE</b></font><br/>(Maroon, #7F1D1D)",
+         "Emergency health hazard: May cause serious respiratory impacts even in healthy individuals. Immediate indoor confinement advised."]
+    ]
+    story.append(make_table(scen_headers, scen_rows, [110, 115, 50, 85, 155], styles,
+                            alignments=['left', 'left', 'center', 'center', 'left']))
 
     story.append(PageBreak())
 
@@ -1257,57 +1215,38 @@ Scenario 3: Hazardous Winter Inversion / Industrial Episode
     story.append(Paragraph("CHAPTER 8: PROJECT MANAGEMENT & COST ESTIMATION", styles["ChapterHeading"]))
     story.append(HRFlowable(width="100%", thickness=1, color=PRIMARY, spaceAfter=10))
 
-    story.append(Paragraph("8.1 Work Breakdown Structure (WBS)", styles["SectionHeading"]))
-    wbs_diagram = """
-1.0 Requirements & Feasibility Analysis
-    1.1 Technical & Operational Feasibility Study
-    1.2 Software Requirements Specification (SRS)
-2.0 Machine Learning Subsystem
-    2.1 CPCB Ground-Truth Observation Data Ingestion
-    2.2 Feature Preprocessing & Standardization Pipeline
-    2.3 Empirical Candidate Benchmarking (MLR, DT, RF, SVR)
-    2.4 Artifact Serialization & Model Registry (Joblib)
-3.0 Backend Application Engineering
-    3.1 FastAPI Asynchronous Architecture & Pydantic Validation
-    3.2 SQLAlchemy 2.0 ORM Schema & Multi-Tenancy
-    3.3 JWT Authentication & Bcrypt RBAC Guards
-    3.4 ReportLab PDF & RFC 4180 CSV Generation Engines
-4.0 Frontend Engineering
-    4.1 React 18 & Vite SPA Scaffolding
-    4.2 Tailwind CSS White + Blue Theme System
-    4.3 Recharts Interactive Visualizations & Gauges
-    4.4 Dual-Mode Parameter Sliders & Presets
-5.0 Verification & Quality Assurance
-    5.1 Automated Pytest Suite Across 7 Disciplines
-    5.2 Performance & Inference Latency Profiling
-6.0 Deployment & Turnkey Release
-    6.1 Zero-Configuration Startup Script (run.sh)
-    6.2 Comprehensive Academic Software Engineering Documentation
-"""
-    story.append(make_diagram_box("Figure 8.1: Work Breakdown Structure (WBS) Tree", wbs_diagram, styles))
+    story.append(Paragraph("8.1 Work Breakdown Structure (WBS) Matrix", styles["SectionHeading"]))
+    wbs_headers = ["WBS Code", "Project Phase", "Key Deliverables & Engineering Artifacts", "Lead Role"]
+    wbs_rows = [
+        ["1.0", "Requirements & Feasibility", "Operational & Technical Feasibility Report, IEEE 830 SRS Document", "Lead Systems Eng"],
+        ["2.0", "Machine Learning Pipeline", "CPCB Data Ingestion, StandardScaler Pipeline, RF Training, Joblib Serialization", "Lead ML Eng"],
+        ["3.0", "Backend Architecture", "FastAPI REST Endpoints, SQLAlchemy ORM Schema, Bcrypt Auth, ReportLab Engine", "Backend Dev"],
+        ["4.0", "Frontend Development", "React 18 SPA Scaffolding, Tailwind CSS Theme, Recharts Visuals, Input Sliders", "Frontend Dev"],
+        ["5.0", "Verification & Testing", "15 Automated Pytest Suites across 7 testing disciplines, Latency Benchmarks", "QA Specialist"],
+        ["6.0", "Deployment & Turnkey Release", "Zero-Configuration startup script (run.sh), Academic Final Report", "Lead Systems Eng"]
+    ]
+    story.append(make_table(wbs_headers, wbs_rows, [45, 120, 245, 105], styles))
     story.append(Spacer(1, 6))
 
-    story.append(Paragraph("8.2 PERT Network Analysis & Critical Path Method (CPM)", styles["SectionHeading"]))
-    pert_diagram = """
-[A: SRS & Feasibility (10d)] ---> [B: Data Pipeline (8d)] ---> [C: ML Training (12d)]
-         |                                                                |
-         +--------------------> [D: DB Schema (6d)] ---> [E: Backend (14d)]
-         |                                                        |       |
-         |                                                        v       v
-         +--------------------> [G: Frontend Arch (10d)] -> [F: ML-API Integration (6d)]
-                                         |                                |
-                                         v                                v
-                                [H: UI Views (16d)] ------> [I: System Integration (8d)]
-                                                                          |
-                                                                          v
-                                                               [J: Formal Testing (10d)]
-                                                                          |
-                                                                          v
-                                                               [K: Deployment Release (4d)]
-
-CRITICAL PATH: A -> B -> C -> F -> I -> J -> K = 10 + 8 + 12 + 6 + 8 + 10 + 4 = 58 WORKING DAYS
-"""
-    story.append(make_diagram_box("Figure 8.2: PERT Activity Network & Critical Path (CPM)", pert_diagram, styles))
+    story.append(Paragraph("8.2 PERT Activity Schedule & Critical Path Method (CPM)", styles["SectionHeading"]))
+    pert_headers = ["Act ID", "Task Description", "Predecessors", "Duration", "ES", "EF", "LS", "LF", "Slack", "Critical?"]
+    pert_rows = [
+        ["A", "Requirements Analysis & SRS", "None", "10 days", "0", "10", "0", "10", "0 d", "YES (Critical)"],
+        ["B", "Atmospheric Data Pipeline", "A", "8 days", "10", "18", "10", "18", "0 d", "YES (Critical)"],
+        ["C", "ML Training & Benchmarking", "B", "12 days", "18", "30", "18", "30", "0 d", "YES (Critical)"],
+        ["D", "Database Schema Design", "A", "6 days", "10", "16", "18", "24", "8 d", "No (Float)"],
+        ["E", "Backend APIs & Auth", "D", "14 days", "16", "30", "24", "38", "8 d", "No (Float)"],
+        ["F", "ML Model-API Integration", "C, E", "6 days", "30", "36", "30", "36", "0 d", "YES (Critical)"],
+        ["G", "Frontend Architecture Setup", "A", "10 days", "10", "20", "12", "22", "2 d", "No (Float)"],
+        ["H", "React UI Views & Recharts", "G", "16 days", "20", "36", "22", "38", "2 d", "No (Float)"],
+        ["I", "Full System Integration", "F, H", "8 days", "36", "44", "36", "44", "0 d", "YES (Critical)"],
+        ["J", "Formal Software Testing", "I", "10 days", "44", "54", "44", "54", "0 d", "YES (Critical)"],
+        ["K", "Turnkey Deployment & Release", "J", "4 days", "54", "58", "54", "58", "0 d", "YES (Critical)"]
+    ]
+    story.append(make_table(pert_headers, pert_rows, [32, 140, 60, 48, 28, 28, 28, 28, 42, 81], styles,
+                            alignments=['center', 'left', 'center', 'center', 'center', 'center', 'center', 'center', 'center', 'center']))
+    story.append(Spacer(1, 4))
+    story.append(Paragraph("<b>Calculated Critical Path:</b> A → B → C → F → I → J → K = 10 + 8 + 12 + 6 + 8 + 10 + 4 = <b>58 Working Days (Zero Slack)</b>.", styles["CalloutText"]))
 
     story.append(PageBreak())
 
@@ -1469,3 +1408,6 @@ if __name__ == "__main__":
     base_dir = os.path.dirname(os.path.abspath(__file__))
     output_pdf = os.path.join(base_dir, "AirGuard_Comprehensive_Software_Project_Report.pdf")
     build_pdf(output_pdf)
+    # Also compile to alternate standard name so both PDFs are always identical and updated
+    alt_pdf = os.path.join(base_dir, "AirGuard_Comprehensive_Project_Report.pdf")
+    build_pdf(alt_pdf)
