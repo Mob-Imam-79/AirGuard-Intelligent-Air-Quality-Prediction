@@ -18,6 +18,7 @@ import Register from './pages/Register';
 // User Pages
 import Dashboard from './pages/Dashboard';
 import Prediction from './pages/Prediction';
+import ModelComparison from './pages/ModelComparison';
 import History from './pages/History';
 import Analytics from './pages/Analytics';
 import Reports from './pages/Reports';
@@ -160,6 +161,16 @@ export default function App() {
           <ProtectedRoute>
             <AppLayout>
               <Prediction />
+            </AppLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/model-comparison"
+        element={
+          <ProtectedRoute>
+            <AppLayout>
+              <ModelComparison />
             </AppLayout>
           </ProtectedRoute>
         }

@@ -24,6 +24,7 @@ export default function Sidebar({ isOpen, onClose }) {
   const userNavItems = [
     { name: 'Dashboard', to: '/dashboard', icon: LayoutDashboard },
     { name: 'AQI Prediction', to: '/prediction', icon: Wind },
+    { name: 'Model Comparison', to: '/model-comparison', icon: Layers },
     { name: 'Prediction History', to: '/history', icon: History },
     { name: 'Analytics', to: '/analytics', icon: Activity },
     { name: 'Reports', to: '/reports', icon: FileText },

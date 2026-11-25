@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
   Wind,
   CheckCircle2,
@@ -7,7 +8,9 @@ import {
   AlertCircle,
   Thermometer,
   Droplets,
-  Layers
+  Layers,
+  Cpu,
+  BarChart2
 } from 'lucide-react';
 import Card from '../components/common/Card';
 import Button from '../components/common/Button';
@@ -18,6 +21,7 @@ import { getCategoryInfo } from '../utils/aqiStandards';
 
 export default function Prediction() {
   const [predictionResult, setPredictionResult] = useState(null);
+  const [selectedAlgorithm, setSelectedAlgorithm] = useState('random_forest'); // 'random_forest', 'linear_regression', 'ann'
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [downloadingPdf, setDownloadingPdf] = useState(false);
@@ -26,7 +30,14 @@ export default function Prediction() {
     try {
       setLoading(true);
       setError(null);
-      const res = await api.predictAqi(payload);
+      let res;
+      if (selectedAlgorithm === 'linear_regression') {
+        res = await api.predictLinearRegression(payload);
+      } else if (selectedAlgorithm === 'ann') {
+        res = await api.predictAnn(payload);
+      } else {
+        res = await api.predictRandomForest(payload);
+      }
       setPredictionResult(res);
       // Scroll to result smoothly
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -64,9 +75,25 @@ export default function Prediction() {
           </p>
         </div>
 
-        <div className="flex items-center gap-2 text-xs font-medium text-slate-500 bg-white border border-[#E2E8F0] px-3 py-1.5 rounded-lg shadow-sm">
-          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-          Active Model: <span className="font-semibold text-slate-800">Random Forest (v1.0)</span>
+        <div className="flex items-center gap-3">
+          <Link
+            to="/model-comparison"
+            className="flex items-center gap-1.5 text-xs font-semibold text-blue-700 bg-blue-50 hover:bg-blue-100 border border-blue-200 px-3 py-1.5 rounded-lg transition-colors"
+          >
+            <Sparkles className="w-3.5 h-3.5" />
+            Compare All 3 Models
+          </Link>
+
+          <div className="flex items-center gap-2 text-xs font-medium text-slate-500 bg-white border border-[#E2E8F0] px-3 py-1.5 rounded-lg shadow-sm">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            Selected: <span className="font-semibold text-slate-800">
+              {selectedAlgorithm === 'linear_regression'
+                ? 'Linear Regression'
+                : selectedAlgorithm === 'ann'
+                ? 'Artificial Neural Network'
+                : 'Random Forest (Ensemble)'}
+            </span>
+          </div>
         </div>
       </div>
 
@@ -224,6 +251,53 @@ export default function Prediction() {
           </div>
         </div>
       )}
+
+      {/* Algorithm Selection Bar */}
+      <div className="bg-white border border-[#E2E8F0] p-3.5 rounded-xl flex flex-wrap items-center justify-between gap-3 shadow-sm">
+        <div className="flex items-center gap-2">
+          <span className="text-xs font-bold uppercase tracking-wider text-slate-500 mr-1">Algorithm:</span>
+          <button
+            type="button"
+            onClick={() => setSelectedAlgorithm('random_forest')}
+            className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+              selectedAlgorithm === 'random_forest'
+                ? 'bg-blue-600 text-white shadow-sm'
+                : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+            }`}
+          >
+            Random Forest (R² 99.96%)
+          </button>
+          <button
+            type="button"
+            onClick={() => setSelectedAlgorithm('ann')}
+            className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+              selectedAlgorithm === 'ann'
+                ? 'bg-blue-600 text-white shadow-sm'
+                : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+            }`}
+          >
+            Neural Network (ANN)
+          </button>
+          <button
+            type="button"
+            onClick={() => setSelectedAlgorithm('linear_regression')}
+            className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+              selectedAlgorithm === 'linear_regression'
+                ? 'bg-blue-600 text-white shadow-sm'
+                : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+            }`}
+          >
+            Linear Regression
+          </button>
+        </div>
+
+        <Link
+          to="/model-comparison"
+          className="text-xs font-semibold text-blue-600 hover:text-blue-800 flex items-center gap-1"
+        >
+          Compare All 3 Side-by-Side &rarr;
+        </Link>
+      </div>
 
       {/* Environmental Input Form Card */}
       <Card

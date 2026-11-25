@@ -11,7 +11,7 @@ AQI_CATEGORIES = {
 
 def classify_aqi(aqi_value: float) -> str:
     """
-    Classifies a numerical AQI value into standard air quality categories:
+    Classifies a numerical AQI value into standard CPCB air quality categories:
     Good (0-50), Satisfactory (51-100), Moderate (101-200),
     Poor (201-300), Very Poor (301-400), Severe (401+).
     """
@@ -32,3 +32,29 @@ def classify_aqi(aqi_value: float) -> str:
 def get_category_metadata(category: str) -> Dict[str, Any]:
     return AQI_CATEGORIES.get(category, AQI_CATEGORIES["Moderate"])
 
+def determine_dominant_pollutant(env_params: Dict[str, Any]) -> str:
+    """
+    Determines the dominant pollutant responsible for AQI deterioration
+    based on official standard regulatory ratios.
+    """
+    # Reference thresholds for 24-hr standard (CPCB / WHO)
+    standards = {
+        'pm25': (60.0, 'PM2.5'),
+        'pm10': (100.0, 'PM10'),
+        'no2': (80.0, 'NO2'),
+        'so2': (80.0, 'SO2'),
+        'co': (2.0, 'CO'),
+        'o3': (100.0, 'O3')
+    }
+    
+    max_ratio = -1.0
+    dominant = "PM2.5"
+    
+    for key, (threshold, label) in standards.items():
+        val = float(env_params.get(key, 0.0))
+        ratio = val / threshold
+        if ratio > max_ratio:
+            max_ratio = ratio
+            dominant = label
+            
+    return dominant

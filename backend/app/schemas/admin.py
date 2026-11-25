@@ -35,6 +35,8 @@ class ModelEvaluationMetrics(BaseModel):
     mse: float
     rmse: float
     r2_score: float
+    training_time_seconds: Optional[float] = None
+    inference_latency_ms: Optional[float] = None
 
 class ModelEvaluationCompare(BaseModel):
     selected_model: str

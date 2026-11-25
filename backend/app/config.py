@@ -3,7 +3,7 @@ from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
     PROJECT_NAME: str = "AirGuard — Intelligent Air Quality Prediction System"
-    VERSION: str = "1.0.0"
+    VERSION: str = "1.1.0"
     API_V1_STR: str = "/api/v1"
     
     # Security
@@ -20,7 +20,14 @@ class Settings(BaseSettings):
     # Paths - inside backend/app
     APP_DIR: str = os.path.dirname(os.path.abspath(__file__))
     ML_ARTIFACTS_DIR: str = os.path.join(APP_DIR, "ml", "artifacts")
-    MODEL_PATH: str = os.path.join(ML_ARTIFACTS_DIR, "best_model.joblib")
+    
+    # Model Artifact Paths
+    MODEL_PATH: str = os.path.join(ML_ARTIFACTS_DIR, "best_model.joblib")  # Default/active model (RF)
+    LR_MODEL_PATH: str = os.path.join(ML_ARTIFACTS_DIR, "linear_regression_model.joblib")
+    RF_MODEL_PATH: str = os.path.join(ML_ARTIFACTS_DIR, "random_forest_model.joblib")
+    ANN_MODEL_PATH: str = os.path.join(ML_ARTIFACTS_DIR, "ann_model.joblib")
+    
+    # Scaler and Metrics
     SCALER_PATH: str = os.path.join(ML_ARTIFACTS_DIR, "preprocessor.joblib")
     METRICS_PATH: str = os.path.join(ML_ARTIFACTS_DIR, "metrics.json")
     DATASET_PATH: str = os.path.join(APP_DIR, "ml", "data", "cpcb_air_quality.csv")

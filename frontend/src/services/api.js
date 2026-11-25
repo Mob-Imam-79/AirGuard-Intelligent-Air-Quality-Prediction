@@ -55,6 +55,11 @@ export const api = {
 
   // Predictions
   predictAqi: (data) => request('/predict/', { method: 'POST', body: JSON.stringify(data) }),
+  predictLinearRegression: (data) => request('/predict/linear-regression', { method: 'POST', body: JSON.stringify(data) }),
+  predictRandomForest: (data) => request('/predict/random-forest', { method: 'POST', body: JSON.stringify(data) }),
+  predictAnn: (data) => request('/predict/ann', { method: 'POST', body: JSON.stringify(data) }),
+  compareModels: (data) => request('/predict/compare', { method: 'POST', body: JSON.stringify(data) }),
+  getModelMetrics: () => request('/models/metrics'),
   getHistory: (params = {}) => {
     const qs = new URLSearchParams(params).toString();
     return request(`/history/${qs ? `?${qs}` : ''}`);

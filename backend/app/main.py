@@ -14,7 +14,8 @@ from backend.app.services.dataset_service import get_or_create_default_dataset
 from backend.app.services.prediction_service import prediction_service
 from backend.app.api import (
     auth_router, users_router, predict_router,
-    history_router, analytics_router, reports_router, admin_router
+    history_router, analytics_router, reports_router, admin_router,
+    models_router
 )
 
 @asynccontextmanager
@@ -57,8 +58,8 @@ async def lifespan(app: FastAPI):
     finally:
         db.close()
         
-    # 4. Warm up ML model
-    prediction_service._load_model()
+    # 4. Warm up all ML models
+    prediction_service._load_all_models()
     
     yield
 
@@ -87,6 +88,7 @@ app.include_router(history_router, prefix=api_v1)
 app.include_router(analytics_router, prefix=api_v1)
 app.include_router(reports_router, prefix=api_v1)
 app.include_router(admin_router, prefix=api_v1)
+app.include_router(models_router, prefix=api_v1)
 
 @app.get("/health")
 def health_check():

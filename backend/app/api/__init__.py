@@ -5,9 +5,10 @@ from backend.app.api.history import router as history_router
 from backend.app.api.analytics import router as analytics_router
 from backend.app.api.reports import router as reports_router
 from backend.app.api.admin import router as admin_router
+from backend.app.api.models import router as models_router
 
 __all__ = [
     "auth_router", "users_router", "predict_router", 
-    "history_router", "analytics_router", "reports_router", "admin_router"
+    "history_router", "analytics_router", "reports_router", "admin_router",
+    "models_router"
 ]
-

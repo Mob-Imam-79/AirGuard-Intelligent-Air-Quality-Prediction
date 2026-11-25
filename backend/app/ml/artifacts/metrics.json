@@ -1,36 +1,59 @@
 {
   "selected_model": "Random Forest Regression",
-  "trained_date": "2026-11-16T23:02:38.049742",
+  "selected_model_key": "random_forest",
+  "trained_date": "2026-11-26T01:17:07.088259",
   "total_records": 12000,
+  "train_size": 9600,
   "test_size": 2400,
+  "features": [
+    "pm25",
+    "pm10",
+    "no2",
+    "so2",
+    "co",
+    "o3",
+    "temperature",
+    "humidity"
+  ],
   "models": [
     {
+      "key": "linear_regression",
       "algorithm": "Linear Regression",
+      "filename": "linear_regression_model.joblib",
       "mae": 20.8727,
       "mse": 820.6157,
       "rmse": 28.6464,
-      "r2_score": 0.9067
+      "r2_score": 0.9067,
+      "training_time_seconds": 0.0161,
+      "inference_latency_ms": 0.0002,
+      "train_samples": 9600,
+      "test_samples": 2400
     },
     {
-      "algorithm": "Decision Tree Regression",
-      "mae": 1.654,
-      "mse": 10.7657,
-      "rmse": 3.2811,
-      "r2_score": 0.9988
-    },
-    {
+      "key": "random_forest",
       "algorithm": "Random Forest Regression",
+      "filename": "random_forest_model.joblib",
       "mae": 0.6965,
       "mse": 3.6686,
       "rmse": 1.9153,
-      "r2_score": 0.9996
+      "r2_score": 0.9996,
+      "training_time_seconds": 1.5734,
+      "inference_latency_ms": 0.0116,
+      "train_samples": 9600,
+      "test_samples": 2400
     },
     {
-      "algorithm": "Support Vector Regression",
-      "mae": 6.6093,
-      "mse": 123.9648,
-      "rmse": 11.1339,
-      "r2_score": 0.9859
+      "key": "ann",
+      "algorithm": "Artificial Neural Network (ANN)",
+      "filename": "ann_model.joblib",
+      "mae": 2.4827,
+      "mse": 13.9327,
+      "rmse": 3.7327,
+      "r2_score": 0.9984,
+      "training_time_seconds": 3.7882,
+      "inference_latency_ms": 0.0006,
+      "train_samples": 9600,
+      "test_samples": 2400
     }
   ]
 }
