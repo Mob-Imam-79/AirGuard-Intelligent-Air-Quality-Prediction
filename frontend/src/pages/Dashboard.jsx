@@ -82,6 +82,17 @@ export default function Dashboard() {
         </div>
       </div>
 
+      {/* Error alert if backend request failed */}
+      {error && (
+        <div className="p-4 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm flex items-start gap-3">
+          <AlertTriangle className="w-5 h-5 shrink-0 mt-0.5" />
+          <div>
+            <p className="font-semibold">Unable to Load Dashboard Intelligence</p>
+            <p className="mt-0.5 text-xs text-red-600">{error}</p>
+          </div>
+        </div>
+      )}
+
       {/* Prominent Latest AQI / Highlight Section */}
       {latest ? (
         <div className="bg-white border border-[#E2E8F0] rounded-xl shadow-sm p-6 overflow-hidden relative">

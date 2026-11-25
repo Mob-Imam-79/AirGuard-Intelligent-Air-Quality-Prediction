@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import {
   LayoutDashboard,
   Wind,
+  Layers,
   History,
   Activity,
   FileText,
