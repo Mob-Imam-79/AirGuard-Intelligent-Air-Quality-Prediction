@@ -270,6 +270,9 @@ export default function History() {
                 <p className="text-4xl font-extrabold text-slate-900 mt-1">
                   {selectedRecord.predicted_aqi.toFixed(1)}
                 </p>
+                <p className="text-[11px] text-blue-700 font-medium mt-1">
+                  Model: {selectedRecord.model_used || 'Random Forest Regression'}
+                </p>
               </div>
               <Badge category={selectedRecord.category} size="lg" showRange={true} />
             </div>

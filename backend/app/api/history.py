@@ -42,6 +42,7 @@ def get_prediction_history(
                 id=pred.id,
                 predicted_aqi=pred.predicted_aqi,
                 category=pred.category,
+                model_used=pred.model_used,
                 created_at=pred.created_at,
                 pm25=env.pm25,
                 pm10=env.pm10,
@@ -96,13 +97,15 @@ def delete_prediction(
             detail="You are not authorized to delete this prediction record."
         )
     
-    # Delete associated environmental data
-    if pred.environmental_data_id:
-        env = db.query(EnvironmentalData).filter(EnvironmentalData.id == pred.environmental_data_id).first()
+    # Delete prediction record first to satisfy foreign key integrity, then delete associated environmental data
+    env_id = pred.environmental_data_id
+    db.delete(pred)
+    db.flush()
+    if env_id:
+        env = db.query(EnvironmentalData).filter(EnvironmentalData.id == env_id).first()
         if env:
             db.delete(env)
             
-    db.delete(pred)
     db.commit()
     return {"message": "Prediction deleted successfully."}
 

@@ -68,7 +68,7 @@ def get_dashboard_summary(
     for p, e in recent_records:
         trends.append({
             "id": p.id,
-            "time": p.created_at.strftime("%m/%d %H:%M"),
+            "time": p.created_at.strftime("%m/%d %H:%M") if p.created_at else "",
             "aqi": p.predicted_aqi,
             "category": p.category,
             "pm25": e.pm25,

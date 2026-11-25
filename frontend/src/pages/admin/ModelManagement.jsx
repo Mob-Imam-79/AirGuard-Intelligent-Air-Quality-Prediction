@@ -27,7 +27,7 @@ export default function ModelManagement() {
   }, []);
 
   const handleRetrain = async () => {
-    if (window.confirm('Retrain all 4 candidate models with the current CPCB dataset? This will run real training on Linear Regression, Decision Tree, Random Forest, and SVR.')) {
+    if (window.confirm('Retrain all 3 candidate models with the current CPCB dataset? This will run real training on Linear Regression, Random Forest, and Artificial Neural Network (ANN).')) {
       try {
         setRetraining(true);
         setMessage(null);
@@ -66,7 +66,7 @@ export default function ModelManagement() {
           onClick={handleRetrain}
           isLoading={retraining}
         >
-          {retraining ? 'Retraining All 4 Models...' : 'Retrain ML Pipeline'}
+          {retraining ? 'Retraining All 3 Models...' : 'Retrain ML Pipeline'}
         </Button>
       </div>
 
@@ -122,24 +122,24 @@ export default function ModelManagement() {
           <div className="p-3 rounded-lg bg-slate-50 border border-slate-200 flex items-center gap-2.5">
             <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
             <div>
-              <p className="font-semibold text-slate-800">best_model.joblib</p>
-              <p className="text-[10px] text-slate-400">Trained Scikit-learn estimator</p>
+              <p className="font-semibold text-slate-800">random_forest_model.joblib</p>
+              <p className="text-[10px] text-slate-400">Random Forest (Winner: R² 0.9996)</p>
             </div>
           </div>
 
           <div className="p-3 rounded-lg bg-slate-50 border border-slate-200 flex items-center gap-2.5">
             <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
             <div>
-              <p className="font-semibold text-slate-800">preprocessor.joblib</p>
-              <p className="text-[10px] text-slate-400">Fitted StandardScaler pipeline</p>
+              <p className="font-semibold text-slate-800">ann_model.joblib</p>
+              <p className="text-[10px] text-slate-400">Neural Network (R² 0.9984)</p>
             </div>
           </div>
 
           <div className="p-3 rounded-lg bg-slate-50 border border-slate-200 flex items-center gap-2.5">
             <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
             <div>
-              <p className="font-semibold text-slate-800">metrics.json</p>
-              <p className="text-[10px] text-slate-400">Comparative evaluation scores</p>
+              <p className="font-semibold text-slate-800">linear_regression_model.joblib</p>
+              <p className="text-[10px] text-slate-400">Linear Regression (R² 0.9067)</p>
             </div>
           </div>
         </div>
@@ -149,13 +149,12 @@ export default function ModelManagement() {
       <Card title="Retraining Pipeline Architecture" subtitle="How automated model re-evaluation operates" icon={Sparkles}>
         <div className="space-y-3 text-xs text-slate-600 leading-relaxed">
           <p>
-            When retraining is triggered, the system loads the complete historical CPCB dataset (12,000 records), validates all features, performs an 80/20 train-test split, fits a feature-standardization scaler, and trains 4 regression models:
+            When retraining is triggered, the system loads the complete historical CPCB dataset (12,000 records), validates all features, performs an 80/20 train-test split, fits a feature-standardization scaler, and trains 3 regression models:
           </p>
           <ul className="list-disc pl-5 space-y-1">
-            <li><b>Linear Regression</b>: Serves as the statistical baseline.</li>
-            <li><b>Decision Tree Regression</b>: Captures non-linear breakpoints with depth bounding.</li>
-            <li><b>Random Forest Regression</b>: Ensemble of 100 decision trees reducing variance and preventing overfitting.</li>
-            <li><b>Support Vector Regression (SVR)</b>: Kernel-based non-linear boundary estimation.</li>
+            <li><b>Linear Regression</b>: Serves as the statistical baseline ($R^2 = 0.9067$).</li>
+            <li><b>Random Forest Regression</b>: Ensemble of 100 decision trees reducing variance and capturing non-linear breakpoints ($R^2 = 0.9996$).</li>
+            <li><b>Artificial Neural Network (ANN)</b>: Multi-layer Perceptron (128-64-32) with ReLU activation and Adam optimizer ($R^2 = 0.9984$).</li>
           </ul>
           <p>
             Each candidate is evaluated across MAE, MSE, RMSE, and R² score on the unseen 20% test split. The candidate with the highest R² score is automatically persisted as <code>best_model.joblib</code> for the live prediction service.
