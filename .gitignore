@@ -57,4 +57,14 @@ airguard_backup_pre_git.tar.gz
 GITHUB_PUBLISHING_LOG.md
 backend_2/
 
+# Temporary, Cache & Log Files
+*.log
+*.tmp
+*.bak
+.cache/
+.matplotlib/
+.ruff_cache/
+.mypy_cache/
+
+
 
